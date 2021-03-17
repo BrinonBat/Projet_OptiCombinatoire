@@ -1,0 +1,17 @@
+format:
+CECI_EST_UNE_CONSTANTE
+ceci_est_une_variable
+ceciEstUneFonction()
+CeciEstUneClasse
+
+Le Terrain est une liste de bâtiments, chacun d'entre eux contenant la coordonnée correspondant à la case en haut à gauche de celui-ci (ainsi que sa taille). 
+Creation d'une classe HDV plutôt que Terrain ?
+
+Vu que le Terrain à accés à la liste de Batiments, c'est lui qui aura la majorité des méthodes. Batiment devrait déjà être terminé là je pense
+
+L'enseignant à dit qu'on peut ajouter en dernier l'aspect "relié à l'HDV par une route", et donc d'abord traiter le problème comme un simple problème sac à dos.
+
+état actuel des méthodes:
+BatimentBienPlacé -> codée mais pas encore testée
+superposition de deux batiments -> testée, OK
+affichage -> testé, OK. Cas d'erreur pris en compte aussi
