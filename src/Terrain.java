@@ -31,13 +31,15 @@ public class Terrain {
 	    	}
     	}
     	else {
-    		System.out.println(" \n Erreur !! Position du batiment " + (li_bat.size()+1) + " incorrectes \n");
+    		System.out.println(" \n Erreur !! Position du batiment " + (li_bat.size()+1) + " incorrecte \n");
     	}
     }
     
     public boolean estValide(Batiment b) {
-    	if((b.getX() + b.getProf() > larg) || (b.getY() + b.getProf() > prof))
-    		return false;
+        //verifie qu'on ne déborde pas du terrain
+    	if(b.getX()<0 || b.getY()<0 || (b.getX() + b.getProf() > larg) || (b.getY() + b.getProf() > prof)) 
+            return false;
+        // verifie que le batiment ne se superpose pas à un autre
     	for(int x = b.getX(); x < (b.getX() + b.getProf()); ++x) {
     		for(int y = b.getY(); y < (b.getY() + b.getLarg()); ++y) {
 				if(terrain[x][y] != 0)
@@ -105,46 +107,6 @@ public class Terrain {
         }
     }
 
-
-    //verifie que le batiment est à un emplacement valide
-    public boolean batimentBienPlace(Batiment bat){
-        for(int pos=0;pos<li_bat.size();pos++){
-            if(li_bat.get(pos)!=bat){
-                if(bat.getX()<0 || (bat.getX()+bat.getLarg()-1)>larg || bat.getY()<0 || (bat.getY()+bat.getProf()-1)>prof) return false; // verifie que le batiment rentre entierement dans le plateau
-                if(seSuperposent(li_bat.get(pos),bat)) return false; // verifie la superposition
-            }
-        }
-        return true;
-    }
-
-    //verifie que le batiment A et le batiment B ne se superposent pas (return true s'ils se superposent)
-    public boolean seSuperposent(Batiment bat_a, Batiment bat_b){
-
-        // si le batiment a est à gauche du batiment b
-        if(bat_a.getX()<bat_b.getX()){ 
-            if((bat_a.getX()+bat_a.getLarg()-1)<bat_b.getX()){ // et que le batiment b ne croise pas a sur l'axe des X
-                return false; // alors qu'importe Y, ils ne se croisent pas
-            }else if( // sinon, si le batiment b et le batiment a ne se croisent pas sur l'axe Y, alors ils ne se croisent pas
-                (bat_a.getY()<bat_b.getY() && (bat_b.getY()+bat_b.getProf()-1)<bat_a.getY())
-                || bat_b.getY()<bat_a.getY() && (bat_a.getY()+bat_a.getProf()-1)<bat_b.getY()
-            ) return false;
-        }
-
-        // si le batiment a est à droite du batiment b
-        else if(bat_a.getX()>bat_b.getX()){ 
-            if((bat_b.getX()+bat_b.getLarg()-1)<bat_a.getX()){ // et que le batiment a ne croise pas b sur l'axe des X
-                return false; // alors qu'importe Y, ils ne se croisent pas
-            }else if( // sinon, si le batiment b et le batiment a ne se croisent pas sur l'axe Y, alors ils ne se croisent pas
-                (bat_a.getY()<bat_b.getY() && (bat_b.getY()+bat_b.getProf()-1)<bat_a.getY())
-                || bat_b.getY()<bat_a.getY() && (bat_a.getY()+bat_a.getProf()-1)<bat_b.getY()
-            ) return false;
-        }
-        
-        
-
-        // sinon, ils se superposent
-        return true; 
-    }
     */
 
     /***********accesseurs**************/
