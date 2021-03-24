@@ -117,17 +117,18 @@ public class Terrain {
     		if(y-1 >= 0) {
 	    		if(terrain[x][y-1] == 0 ) {
 	    			if(!this.estParcourue(parcourue, new Case(x,y-1))) { // Si la case est vide et est non parcourue on l'ajoute à la pile
-		    			//System.out.println("Ajout de la case (" + x + "," + (y-1) +")");
+		    			System.out.println("Ajout de la case (" + x + "," + (y-1) +")");
 		    			pile.push(new Case(x,y-1));
 		    			parcourue.add(new Case(x,y-1));
 	    			}
 	    		}
 	    		else { // Sinon c'est un batiment
 	    			if(!li_bat.get(terrain[x][y-1]-1).estRelie()) { // s'il est pas déjà indiqué comme relié alors on le relie
-	    				//System.out.println("Batiment " + terrain[x][y-1] + " est relié à l'hdv");
+	    				System.out.println("Batiment " + terrain[x][y-1] + " est relié à l'hdv");
 	    				li_bat.get(terrain[x][y-1]-1).setRelie(true);
 	    			}
-	    			estRelie.add(terrain[x][y-1]-1);
+	    			if(!estRelie.contains(terrain[x][y-1]-1))
+	    				estRelie.add(terrain[x][y-1]-1);
 	    		}
     		}
     		
@@ -135,17 +136,18 @@ public class Terrain {
     		if(y+1 < this.larg) {
 	    		if(terrain[x][y+1] == 0 ) {
 	    			if(!this.estParcourue(parcourue, new Case(x,y+1))) {
-		    			//System.out.println("Ajout de la case (" + x + "," + (y+1) +")");
+		    			System.out.println("Ajout de la case (" + x + "," + (y+1) +")");
 		    			pile.push(new Case(x,y+1));
 		    			parcourue.add(new Case(x,y+1));
 	    			}
 	    		}
 	    		else {
 	    			if(!li_bat.get(terrain[x][y+1]-1).estRelie()) {
-	    				//System.out.println("Batiment " + terrain[x][y+1] + " est relié à l'hdv");
+	    				System.out.println("Batiment " + terrain[x][y+1] + " est relié à l'hdv");
 	    				li_bat.get(terrain[x][y+1]-1).setRelie(true);
 	    			}
-	    			estRelie.add(terrain[x][y+1]-1);
+	    			if(!estRelie.contains(terrain[x][y+1]-1))
+	    				estRelie.add(terrain[x][y+1]-1);
 	    		}
     		}
     		
@@ -153,17 +155,18 @@ public class Terrain {
     		if(x-1 >= 0) {
 	    		if(terrain[x-1][y] == 0 ) {
 	    			if(!this.estParcourue(parcourue, new Case(x-1,y))) {
-		    			//System.out.println("Ajout de la case (" + (x-1) + "," + y +")");
+		    			System.out.println("Ajout de la case (" + (x-1) + "," + y +")");
 		    			pile.push(new Case(x-1,y));
 		    			parcourue.add(new Case(x-1,y));
 	    			}
 	    		}
 	    		else {
 	    			if(!li_bat.get(terrain[x-1][y]-1).estRelie()) {
-	    				//System.out.println("Batiment " + terrain[x-1][y] + " est relié à l'hdv");
+	    				System.out.println("Batiment " + terrain[x-1][y] + " est relié à l'hdv");
 	    				li_bat.get(terrain[x-1][y]-1).setRelie(true);
 	    			}
-	    			estRelie.add(terrain[x-1][y]-1);
+	    			if(!estRelie.contains(terrain[x-1][y]-1))
+	    				estRelie.add(terrain[x-1][y]-1);
 	    		}
     		}
     		
@@ -171,17 +174,18 @@ public class Terrain {
     		if(x+1 < this.prof) {
 	    		if(terrain[x+1][y] == 0 ) {
 	    			if(!this.estParcourue(parcourue, new Case(x+1,y))) {
-		    			//System.out.println("Ajout de la case (" + (x+1) + "," + y +")");
+		    			System.out.println("Ajout de la case (" + (x+1) + "," + y +")");
 		    			pile.push(new Case(x+1,y));
 		    			parcourue.add(new Case(x+1,y));
 	    			}
 	    		}
 	    		else {
 	    			if(!li_bat.get(terrain[x+1][y]-1).estRelie()) {
-	    				//System.out.println("Batiment " + terrain[x+1][y] + " est relié à l'hdv");
+	    				System.out.println("Batiment " + terrain[x+1][y] + " est relié à l'hdv");
 	    				li_bat.get(terrain[x+1][y]-1).setRelie(true);	
 	    			}
-	    			estRelie.add(terrain[x+1][y]-1);
+	    			if(!estRelie.contains(terrain[x+1][y]-1))
+	    				estRelie.add(terrain[x+1][y]-1);
 	    		}
     		}
     		
