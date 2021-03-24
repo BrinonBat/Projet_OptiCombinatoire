@@ -15,3 +15,5 @@ L'enseignant à dit qu'on peut ajouter en dernier l'aspect "relié à l'HDV par 
 BatimentBienPlacé -> testée, OK
 superposition de deux batiments -> testée, OK
 affichage -> testé, OK. Cas d'erreur pris en compte aussi
+
+Gestion des routes et implémentation de l'algorithme glouton
