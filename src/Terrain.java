@@ -387,7 +387,6 @@ public class Terrain {
     public void glouton() {
     	terrain = new int[larg][prof];
     	ajoutAleatoireHDV();
-    	afficherTerrain();
     	repartitionBatiment();
     	System.out.println("====== Résultat ======");
     	afficherTerrain();

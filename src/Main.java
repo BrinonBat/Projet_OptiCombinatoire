@@ -10,6 +10,7 @@ public class Main{
 
     	String filename = args[0];
     	try {
+    		// Permet de lire un fichier
 			InputStream is = new FileInputStream(filename);
 			InputStreamReader isr = new InputStreamReader(is);
 			BufferedReader br = new BufferedReader(isr);
@@ -18,21 +19,21 @@ public class Main{
 			int compteur = 0;
 			Terrain terrain= null;
 			while((ligne = br.readLine()) != null) {
-				if(compteur == 0) {
+				if(compteur == 0) { // Première ligne c'est la taille du terrain
 					res = ligne.split(" ");
 					int largeur = Integer.parseInt(res[0]);
 					int profondeur = Integer.parseInt(res[1]);
 					terrain = new Terrain(largeur,profondeur);
 				}
-				else if(compteur == 1) {
+				else if(compteur == 1) { // Deuxième ligne c'est le nb de batiment
 					int nbBatiment = Integer.parseInt(ligne.trim());
-				} else {
+				} else { // Le reste des lignes c'est les tailles des batiments
 					res = ligne.split(" ");
 					int largeur = Integer.parseInt(res[0]);
 					int profondeur = Integer.parseInt(res[1]);
-					if(compteur == 2)
+					if(compteur == 2) // HDV
 						terrain.getliBat().add(new Batiment(largeur, profondeur, true));
-					else
+					else // batiment normal
 						terrain.getliBat().add(new Batiment(largeur, profondeur));
 				}
 				++compteur;
@@ -42,18 +43,6 @@ public class Main{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
-    	
-        /*Terrain test=new Terrain(4,4);
-        test.addBatiment(new Batiment(0,0,3,2,true));
-        test.addBatiment(new Batiment(0,3,1,1));
-        test.addBatiment(new Batiment(2,2,2,2));
-        test.afficherTerrain();
-        System.out.println("Score : " + test.calculeScore());
-        //System.out.println(test.estRelieHDV());
-        
-        System.out.println("======== Glouton ========");
-        test.glouton();*/
         
     }
 
