@@ -22,21 +22,6 @@ public class Terrain {
     }
 
     /************méthodes***************/
-
-    // Ajoute un batiment sur le terrain si sa position est valide
-    public void addBatiment(Batiment b) {
-    	if(estValide(b)) {
-	    	li_bat.add(b);
-	    	for(int x = b.getX(); x < (b.getX() + b.getProf()); ++x) {
-	    		for(int y = b.getY(); y < (b.getY() + b.getLarg()); ++y) {
-    				terrain[x][y] = li_bat.size();
-	    		}
-	    	}
-    	}
-    	else {
-    		System.out.println(" \n Erreur !! Position du batiment " + (li_bat.size()+1) + " incorrectes \n");
-    	}
-    }
     
     // Regarde si la position du batiment est valide
     public boolean estValide(Batiment b) {
@@ -59,13 +44,17 @@ public class Terrain {
     	for(int y = 0; y < prof; ++y) {
     		ligne += "| ";
     		for(int x = 0; x < larg; ++x) {
-    			ligne += terrain[x][y] + " | ";
+    			if(terrain[x][y] < 10)
+    				ligne += terrain[x][y] + " | ";
+    			else
+    				ligne += terrain[x][y] + "| ";
     		}
     		ligne += "\n";
     	}
     	System.out.println(ligne);
     }
     
+    // Retourne le nombre de batiment sur le terrain
     public int getNbBatiment() {
     	ArrayList<Integer> batiments = new ArrayList<>();
     	for(int x = 0; x < prof; ++x) {
@@ -117,14 +106,14 @@ public class Terrain {
     		if(y-1 >= 0) {
 	    		if(terrain[x][y-1] == 0 ) {
 	    			if(!this.estParcourue(parcourue, new Case(x,y-1))) { // Si la case est vide et est non parcourue on l'ajoute à la pile
-		    			System.out.println("Ajout de la case (" + x + "," + (y-1) +")");
+		    			//System.out.println("Ajout de la case (" + x + "," + (y-1) +")");
 		    			pile.push(new Case(x,y-1));
 		    			parcourue.add(new Case(x,y-1));
 	    			}
 	    		}
 	    		else { // Sinon c'est un batiment
 	    			if(!li_bat.get(terrain[x][y-1]-1).estRelie()) { // s'il est pas déjà indiqué comme relié alors on le relie
-	    				System.out.println("Batiment " + terrain[x][y-1] + " est relié à l'hdv");
+	    				//System.out.println("Batiment " + terrain[x][y-1] + " est relié à l'hdv");
 	    				li_bat.get(terrain[x][y-1]-1).setRelie(true);
 	    			}
 	    			if(!estRelie.contains(terrain[x][y-1]-1))
@@ -136,14 +125,14 @@ public class Terrain {
     		if(y+1 < this.larg) {
 	    		if(terrain[x][y+1] == 0 ) {
 	    			if(!this.estParcourue(parcourue, new Case(x,y+1))) {
-		    			System.out.println("Ajout de la case (" + x + "," + (y+1) +")");
+		    			//System.out.println("Ajout de la case (" + x + "," + (y+1) +")");
 		    			pile.push(new Case(x,y+1));
 		    			parcourue.add(new Case(x,y+1));
 	    			}
 	    		}
 	    		else {
 	    			if(!li_bat.get(terrain[x][y+1]-1).estRelie()) {
-	    				System.out.println("Batiment " + terrain[x][y+1] + " est relié à l'hdv");
+	    				//System.out.println("Batiment " + terrain[x][y+1] + " est relié à l'hdv");
 	    				li_bat.get(terrain[x][y+1]-1).setRelie(true);
 	    			}
 	    			if(!estRelie.contains(terrain[x][y+1]-1))
@@ -155,14 +144,14 @@ public class Terrain {
     		if(x-1 >= 0) {
 	    		if(terrain[x-1][y] == 0 ) {
 	    			if(!this.estParcourue(parcourue, new Case(x-1,y))) {
-		    			System.out.println("Ajout de la case (" + (x-1) + "," + y +")");
+		    			//System.out.println("Ajout de la case (" + (x-1) + "," + y +")");
 		    			pile.push(new Case(x-1,y));
 		    			parcourue.add(new Case(x-1,y));
 	    			}
 	    		}
 	    		else {
 	    			if(!li_bat.get(terrain[x-1][y]-1).estRelie()) {
-	    				System.out.println("Batiment " + terrain[x-1][y] + " est relié à l'hdv");
+	    				//System.out.println("Batiment " + terrain[x-1][y] + " est relié à l'hdv");
 	    				li_bat.get(terrain[x-1][y]-1).setRelie(true);
 	    			}
 	    			if(!estRelie.contains(terrain[x-1][y]-1))
@@ -174,14 +163,14 @@ public class Terrain {
     		if(x+1 < this.prof) {
 	    		if(terrain[x+1][y] == 0 ) {
 	    			if(!this.estParcourue(parcourue, new Case(x+1,y))) {
-		    			System.out.println("Ajout de la case (" + (x+1) + "," + y +")");
+		    			//System.out.println("Ajout de la case (" + (x+1) + "," + y +")");
 		    			pile.push(new Case(x+1,y));
 		    			parcourue.add(new Case(x+1,y));
 	    			}
 	    		}
 	    		else {
 	    			if(!li_bat.get(terrain[x+1][y]-1).estRelie()) {
-	    				System.out.println("Batiment " + terrain[x+1][y] + " est relié à l'hdv");
+	    				//System.out.println("Batiment " + terrain[x+1][y] + " est relié à l'hdv");
 	    				li_bat.get(terrain[x+1][y]-1).setRelie(true);	
 	    			}
 	    			if(!estRelie.contains(terrain[x+1][y]-1))
@@ -328,7 +317,6 @@ public class Terrain {
     // et ne bloque pas de route pour un autre batiment
     // alors on l'ajoute
     public void repartitionBatiment() {
-    	int compteur = 2;
     	for(int x = 0; x < prof; ++x) {
     		for(int y = 0; y < larg; ++y) {
     			if(terrain[x][y] == 0) {
@@ -360,15 +348,15 @@ public class Terrain {
 				if((x+profondeur) <= prof && (y+largeur) <= larg) { // Si le batiment rentre dans le terrain
 					if(estVide(x,y,largeur,profondeur)) { // Si le batiment peut-être ajouté à la position courante
 						if(estRelie(x,y,largeur,profondeur)) { // Si la position est relié à l'hdv
-							System.out.println("Batiment " + (i+1) + " est placé et est relié");
+							//System.out.println("Batiment " + (i+1) + " est placé et est relié");
 							for(int a = x; a < (x + profondeur); ++a) { // On ajoute le batiment
 		    		    		for(int b = y; b < (y + largeur); ++b) {
 		    		    			terrain[a][b] = i+1;
 		    		    		}
 		    		    	}
-							this.afficherTerrain();
+							//this.afficherTerrain();
 							if(!estRelieHDV()) { // Si tous les batiments ne sont pas relié après l'ajout alors on retire le batiment
-		    					System.out.println("Batiment " + (i+1) + " bloque une route");
+		    					//System.out.println("Batiment " + (i+1) + " bloque une route");
 		    					for(int a = x; a < (x + profondeur); ++a) {
 			    		    		for(int b = y; b < (y + largeur); ++b) {
 			    		    			terrain[a][b] = 0;
@@ -399,6 +387,7 @@ public class Terrain {
     public void glouton() {
     	terrain = new int[larg][prof];
     	ajoutAleatoireHDV();
+    	afficherTerrain();
     	repartitionBatiment();
     	System.out.println("====== Résultat ======");
     	afficherTerrain();
