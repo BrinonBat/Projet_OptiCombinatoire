@@ -15,12 +15,12 @@ Ce projet est réalisée par Baptiste Brinon et Simon Mitaty
     - [x] placement des bâtiments (Simon)
     - [x] verification de placement correct (Baptiste)
 4. Question 4 (peut-être fait à la fin si trop compliqué)
-    - [ ] verification relié à hotel de ville
-    - [ ] marquage des batiments reliés
+    - [x] verification relié à hotel de ville
+    - [x] marquage des batiments reliés
 5. Question 5
-    - [ ] calcul de score pour une solution (cases libres restantes, distance entre batiments, ...)
+    - [x] calcul de score pour une solution (cases libres restantes, distance entre batiments, ...)
 6. Question 6
-    - [ ] premier algorithme glouton
+    - [x] premier algorithme glouton
 7. Question 7
     - [ ] implémentation d'un premier variant
     - [ ] d'un second variant
