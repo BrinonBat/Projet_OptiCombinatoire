@@ -31,7 +31,10 @@ public class Main{
                 test.addBatiment(new Batiment(2,2,2,2));
                 test.afficherTerrain();
                 System.out.println("Score : " + test.calculeScore());
-                System.out.println(test.estRelieHDV());
+                //System.out.println(test.estRelieHDV());
+                
+                System.out.println("======== Glouton ========");
+                test.glouton();
 
                 break;
             }
