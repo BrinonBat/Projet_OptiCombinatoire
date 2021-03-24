@@ -21,14 +21,17 @@ public class Main{
                 error_test.addBatiment(new Batiment(3,2,1,1));
                 error_test.addBatiment(new Batiment(2,2,2,2));
                 error_test.afficherTerrain();
+                System.out.println("Score : " + error_test.calculeScore());
         
                 System.out.println("Affichage terrain correct :");
         
                 Terrain test=new Terrain(4,4);
-                test.addBatiment(new Batiment(0,0,3,2));
+                test.addBatiment(new Batiment(0,0,3,2,true));
                 test.addBatiment(new Batiment(0,3,1,1));
                 test.addBatiment(new Batiment(2,2,2,2));
                 test.afficherTerrain();
+                System.out.println("Score : " + test.calculeScore());
+                System.out.println(test.estRelieHDV());
 
                 break;
             }

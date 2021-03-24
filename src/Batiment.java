@@ -29,6 +29,15 @@ public class Batiment {
         est_HDV=false;
         est_relie=false;
     }
+    
+    public Batiment(int x,int y,int larg, int prof, boolean hdv){
+        this.x=x;
+        this.y=y;
+        this.larg=larg;
+        this.prof=prof;
+        est_HDV=hdv;
+        est_relie=false;
+    }
 
     /************méthodes***************/
 
