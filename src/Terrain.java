@@ -277,9 +277,19 @@ public class Terrain {
     
     // Calcul le score du terrain en faisant la somme des aires des batiments
     public int calculeScore() {
+    	ArrayList<Batiment> batiments = new ArrayList<>();
+    	for(int x = 0; x < prof; ++x) {
+        	for(int y = 0; y < larg; ++y) {
+        		if(terrain[x][y] != 0) {
+        			if(!batiments.contains(terrain[x][y])) {
+        				batiments.add(li_bat.get(terrain[x][y]));
+        			}
+        		}
+        	}
+        }
     	int aire = 0;
-    	for(int i = 0; i < li_bat.size(); ++i) {
-    		aire += li_bat.get(i).getLarg() * li_bat.get(i).getProf();
+    	for(int i = 0; i < batiments.size(); ++i) {
+    		aire += batiments.get(i).getLarg() * batiments.get(i).getProf();
     	}
     	return aire;
     }
