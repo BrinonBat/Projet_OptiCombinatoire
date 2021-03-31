@@ -1,5 +1,6 @@
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.Random;
 
@@ -418,15 +419,69 @@ public class Terrain {
 		}
     	return true;
     }
+
     
+    public static void quicksortAire(ArrayList<Batiment> tableau, int début, int fin) {
+        if (début < fin) {
+            int indicePivot = partitionAire(tableau, début, fin);
+            quicksortAire(tableau, début, indicePivot-1);
+            quicksortAire(tableau, indicePivot+1, fin);
+        }
+    }
+    
+    public static int partitionAire(ArrayList<Batiment> b, int début, int fin) {
+        Batiment batPivot = b.get(début);
+        int d = début+1;
+        int f = fin;
+        while (d < f) {
+            while(d < f && b.get(f).getAire() >= batPivot.getAire()) f--;
+            while(d < f && b.get(d).getAire() <= batPivot.getAire()) d++;
+            Batiment temp = b.get(d);
+            b.set(d, b.get(f));
+            b.set(f, temp);
+        }
+        if (b.get(d).getAire() > batPivot.getAire()) d--;
+        b.set(début, b.get(d));
+        b.set(d,batPivot);
+        return d;
+    }
+
+
+
     // Applique l'algorithme glouton
     public void glouton() {
-    	terrain = new int[larg][prof];
+    	// je vois pas pourquoi t'avais mis cette ligne (déjà dans le constructeur), donc je la commente plutôt que la supprimer : terrain = new int[larg][prof];
     	ajoutAleatoireHDV();
     	repartitionBatiment();
     	System.out.println("====== Résultat ======");
     	afficherTerrain();
     	System.out.println("Score : " + calculeScore());
+    }
+
+    public void gloutonAire(){
+        quicksortAire(li_bat, 0 , li_bat.size()-1);
+        ajoutAleatoireHDV();
+    	repartitionBatiment();
+    	System.out.println("====== Résultat ======");
+    	afficherTerrain();
+    	System.out.println("Score : " + calculeScore());
+    }
+
+    public void gloutonAléatoire(){
+        Collections.shuffle(li_bat);
+    	ajoutAleatoireHDV();
+    	repartitionBatiment();
+    	System.out.println("====== Résultat ======");
+    	afficherTerrain();
+    	System.out.println("Score : " + calculeScore());
+
+    }
+
+    public void gloutonEncombrement(){
+
+    }
+    public void gloutonPerso(){
+
     }
 
     /***********accesseurs**************/
