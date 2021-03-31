@@ -22,11 +22,35 @@ public class Terrain {
     }
 
     /************méthodes***************/
-    
+
+/*
+    // Ajoute un batiment sur le terrain
+    public void addBatiment(Batiment b) {
+    	if(estValide(b)) {
+	    	li_bat.add(b);
+	    	for(int x = b.getX(); x < (b.getX() + b.getProf()); ++x) {
+	    		for(int y = b.getY(); y < (b.getY() + b.getLarg()); ++y) {
+    				terrain[x][y] = li_bat.size();
+	    		}
+	    	}
+    	}
+    	else {
+    		System.out.println(" \n Erreur !! Position du batiment " + (li_bat.size()+1) + " incorrecte \n");
+    	}
+    }
+*/    
     // Regarde si la position du batiment est valide
     public boolean estValide(Batiment b) {
     	if((b.getX() + b.getProf() > larg) || (b.getY() + b.getProf() > prof)) // Regarde si la taille ne dépasse pas le terrain
     		return false;
+
+  /*
+        //verifie qu'on ne déborde pas du terrain
+    	if(b.getX()<0 || b.getY()<0 || (b.getX() + b.getProf() > larg) || (b.getY() + b.getProf() > prof)) 
+            return false;
+        // verifie que le batiment ne se superpose pas à un autre
+
+*/
     	for(int x = b.getX(); x < (b.getX() + b.getProf()); ++x) {
     		for(int y = b.getY(); y < (b.getY() + b.getLarg()); ++y) {
 				if(terrain[x][y] != 0) // Si la valeur est de 0 c'est que la case est vide sinon elle est occupée
