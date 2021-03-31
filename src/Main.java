@@ -24,7 +24,7 @@ public class Main{
                 String ligne;
                 String res[];
                 int compteur = 0;
-                int nbBatiment;
+                //int nbBatiment;
                 Terrain terrain= null;
                 while((ligne = br.readLine()) != null) {
                     if(compteur == 0) { // Première ligne c'est la taille du terrain
@@ -34,7 +34,7 @@ public class Main{
                         terrain = new Terrain(largeur,profondeur);
                     }
                     else if(compteur == 1) { // Deuxième ligne c'est le nb de batiment
-                        nbBatiment = Integer.parseInt(ligne.trim());
+                  //      nbBatiment = Integer.parseInt(ligne.trim());
                     } else { // Le reste des lignes c'est les tailles des batiments
                         res = ligne.split(" ");
                         int largeur = Integer.parseInt(res[0]);
@@ -46,17 +46,17 @@ public class Main{
                     }
                     ++compteur;
                 }
-
+                br.close();
 
                 // application de l'algo glouton
                 System.out.println("choisissez un algo Glouton à tester parmis les suivants:");
                 Scanner sc=new Scanner(System.in);
                 short test_num;
-                System.out.println(" 1: algo glouton classique");
-                System.out.println(" 2: algo glouton avec placement des bâtiments d'aire maximale en premier");
-                System.out.println(" 3: algo glouton avec placement des bâtiments les plus encombrants en premier");
-                System.out.println(" 4: algo glouton avec placement des bâtiments dans un ordre aléatoire");
-                System.out.println(" 5: algo glouton personnalisé");
+                System.out.println(" 1: classique");
+                System.out.println(" 2: bâtiments d'aire maximale en premier");
+                System.out.println(" 3: bâtiments les plus encombrants en premier");
+                System.out.println(" 4: placement des bâtiments dans un ordre aléatoire");
+                System.out.println(" 5: personnalisé");
 
                 test_num=Short.parseShort(sc.nextLine());
 
@@ -64,13 +64,13 @@ public class Main{
                 switch(test_num){
                     case 1: terrain.glouton(); break;
                     case 2: terrain.gloutonAire(); break;
-                    case 3: //terrain.gloutonEncombrement(); break;
+                    case 3: terrain.gloutonEncombrement(); break;
                     case 4: terrain.gloutonAléatoire(); break;
                     case 5: //terrain.gloutonPerso(); break;
                 }
                 sc.close();
             } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
+                System.out.println(" erreur dans le main lors de la lecture du fichier");
                 e.printStackTrace();
             }
             

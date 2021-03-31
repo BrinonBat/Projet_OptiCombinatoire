@@ -345,6 +345,7 @@ public class Terrain {
     			terrain[x][y] = 1;
     		}
     	}
+
     }
     
     // On parcoure chaque case du terrain
@@ -400,8 +401,10 @@ public class Terrain {
 			    		    		}
 			    		    	}
 		    				}
-							else
-								return;
+							else{
+                                System.out.println("Batiment "+(i+1)+"placé =====> (aire:"+li_bat.get(i).getAire()+" , encombrement:"+li_bat.get(i).getEncombrement()+")");
+                                return;
+                            }
 						}
 					}
 				}
@@ -420,31 +423,6 @@ public class Terrain {
     	return true;
     }
 
-    
-    public static void quicksortAire(ArrayList<Batiment> tableau, int début, int fin) {
-        if (début < fin) {
-            int indicePivot = partitionAire(tableau, début, fin);
-            quicksortAire(tableau, début, indicePivot-1);
-            quicksortAire(tableau, indicePivot+1, fin);
-        }
-    }
-    
-    public static int partitionAire(ArrayList<Batiment> b, int début, int fin) {
-        Batiment batPivot = b.get(début);
-        int d = début+1;
-        int f = fin;
-        while (d < f) {
-            while(d < f && b.get(f).getAire() >= batPivot.getAire()) f--;
-            while(d < f && b.get(d).getAire() <= batPivot.getAire()) d++;
-            Batiment temp = b.get(d);
-            b.set(d, b.get(f));
-            b.set(f, temp);
-        }
-        if (b.get(d).getAire() > batPivot.getAire()) d--;
-        b.set(début, b.get(d));
-        b.set(d,batPivot);
-        return d;
-    }
 
 
 
@@ -453,33 +431,83 @@ public class Terrain {
     	// je vois pas pourquoi t'avais mis cette ligne (déjà dans le constructeur), donc je la commente plutôt que la supprimer : terrain = new int[larg][prof];
     	ajoutAleatoireHDV();
     	repartitionBatiment();
+
+        System.out.println("placement dans l'ordre:");
     	System.out.println("====== Résultat ======");
     	afficherTerrain();
     	System.out.println("Score : " + calculeScore());
     }
 
+
+    // Quicksort basé sur la valeur d'encombrement de chaque batiment
+    public static void quicksortEncombrement(ArrayList<Batiment> tableau, int début, int fin) {
+        if (début < fin) {
+            int indicePivot = partitionEncombrement(tableau, début, fin);
+            quicksortEncombrement(tableau, début, indicePivot-1);
+            quicksortEncombrement(tableau, indicePivot+1, fin);
+        }
+    }
+    public static int partitionEncombrement(ArrayList<Batiment> b, int début, int fin) {
+        Batiment batPivot = b.get(début);
+        int d = début+1;
+        int f = fin;
+        while (d < f) {
+            while(d < f && b.get(f).getEncombrement() <= batPivot.getEncombrement()) f--;
+            while(d < f && b.get(d).getEncombrement() >= batPivot.getEncombrement()) d++;
+            Batiment temp = b.get(d);
+            b.set(d, b.get(f));
+            b.set(f, temp);
+        }
+        if (b.get(d).getEncombrement() < batPivot.getEncombrement()) d--;
+        b.set(début, b.get(d));
+        b.set(d,batPivot);
+        return d;
+    }
+
+    //glouton placant en priorité les batiments à plus grand encombrement
+    public void gloutonEncombrement(){
+        quicksortEncombrement(li_bat,0,li_bat.size()-1);
+        glouton();
+    }
+
+    //quicksort basé sur l'aire de chaque batiment
+    public static void quicksortAire(ArrayList<Batiment> tableau, int début, int fin) {
+        if (début < fin) {
+            int indicePivot = partitionAire(tableau, début, fin);
+            quicksortAire(tableau, début, indicePivot-1);
+            quicksortAire(tableau, indicePivot+1, fin);
+        }
+    }
+    public static int partitionAire(ArrayList<Batiment> b, int début, int fin) {
+        Batiment batPivot = b.get(début);
+        int d = début+1;
+        int f = fin;
+        while (d < f) {
+            while(d < f && b.get(f).getAire() <= batPivot.getAire()) f--;
+            while(d < f && b.get(d).getAire() >= batPivot.getAire()) d++;
+            Batiment temp = b.get(d);
+            b.set(d, b.get(f));
+            b.set(f, temp);
+        }
+        if (b.get(d).getAire() < batPivot.getAire()) d--;
+        b.set(début, b.get(d));
+        b.set(d,batPivot);
+        return d;
+    }
+
+    //glouton placant en priorité les batiments qui ont les plus grandes aires
     public void gloutonAire(){
         quicksortAire(li_bat, 0 , li_bat.size()-1);
-        ajoutAleatoireHDV();
-    	repartitionBatiment();
-    	System.out.println("====== Résultat ======");
-    	afficherTerrain();
-    	System.out.println("Score : " + calculeScore());
+        glouton();
     }
 
+    //glouton placant les batiments dans un ordre aléatoire
     public void gloutonAléatoire(){
         Collections.shuffle(li_bat);
-    	ajoutAleatoireHDV();
-    	repartitionBatiment();
-    	System.out.println("====== Résultat ======");
-    	afficherTerrain();
-    	System.out.println("Score : " + calculeScore());
+    	glouton();
 
     }
 
-    public void gloutonEncombrement(){
-
-    }
     public void gloutonPerso(){
 
     }
