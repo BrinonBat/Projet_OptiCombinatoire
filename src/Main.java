@@ -1,42 +1,48 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class Main{
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        // Saisie au clavier du test à effectuer
-        Scanner sc=new Scanner(System.in);
-        short test_num;
-        System.out.println("entre un numero en fonction du test que vous voulez effectuer:");
-        System.out.println(" 1: test de l'affichage");
-
-        test_num=Short.parseShort(sc.nextLine());
-
-        //effectue le test saisi
-        switch(test_num){
-            case 1:{//test de l'affichage
-                System.out.println(" test de l'affichage \nAffichage erreur :");
-        
-                Terrain error_test=new Terrain(4,4);
-                error_test.addBatiment(new Batiment(0,0,3,2));
-                error_test.addBatiment(new Batiment(3,2,1,1));
-                error_test.addBatiment(new Batiment(2,2,2,2));
-                error_test.afficherTerrain();
-        
-                System.out.println("Affichage terrain correct :");
-        
-                Terrain test=new Terrain(4,4);
-                test.addBatiment(new Batiment(0,0,3,2));
-                test.addBatiment(new Batiment(0,3,1,1));
-                test.addBatiment(new Batiment(2,2,2,2));
-                test.afficherTerrain();
-
-                break;
-            }
-            default : {
-                // lancement classique du programme
-            }
-        }
-        sc.close();
+    	String filename = args[0];
+    	try {
+    		// Permet de lire un fichier
+			InputStream is = new FileInputStream(filename);
+			InputStreamReader isr = new InputStreamReader(is);
+			BufferedReader br = new BufferedReader(isr);
+			String ligne;
+			String res[];
+			int compteur = 0;
+			Terrain terrain= null;
+			while((ligne = br.readLine()) != null) {
+				if(compteur == 0) { // Première ligne c'est la taille du terrain
+					res = ligne.split(" ");
+					int largeur = Integer.parseInt(res[0]);
+					int profondeur = Integer.parseInt(res[1]);
+					terrain = new Terrain(largeur,profondeur);
+				}
+				else if(compteur == 1) { // Deuxième ligne c'est le nb de batiment
+					int nbBatiment = Integer.parseInt(ligne.trim());
+				} else { // Le reste des lignes c'est les tailles des batiments
+					res = ligne.split(" ");
+					int largeur = Integer.parseInt(res[0]);
+					int profondeur = Integer.parseInt(res[1]);
+					if(compteur == 2) // HDV
+						terrain.getliBat().add(new Batiment(largeur, profondeur, true));
+					else // batiment normal
+						terrain.getliBat().add(new Batiment(largeur, profondeur));
+				}
+				++compteur;
+			}
+			terrain.glouton();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
     }
 
