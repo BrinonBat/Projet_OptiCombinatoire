@@ -54,6 +54,8 @@ public class Batiment {
     public int getY(){return y;}
     public int getLarg(){return larg;}
     public int getProf(){return prof;}
+    public int getAire(){return larg*prof;}
+    public int getEncombrement(){return larg+prof;}
     public boolean estHDV(){return est_HDV;}
     public boolean estRelie(){return est_relie;}
 
