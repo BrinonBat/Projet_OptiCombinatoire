@@ -308,7 +308,7 @@ public class Terrain {
         		if(terrain[x][y] != 0) {
         			if(!batiments_visite.contains(terrain[x][y])) {
         				batiments_visite.add(terrain[x][y]);
-        				batiments.add(li_bat.get(terrain[x][y]));
+        				batiments.add(li_bat.get(terrain[x][y]-1));
         			}
         		}
         	}
