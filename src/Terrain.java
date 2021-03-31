@@ -302,10 +302,12 @@ public class Terrain {
     // Calcul le score du terrain en faisant la somme des aires des batiments
     public int calculeScore() {
     	ArrayList<Batiment> batiments = new ArrayList<>();
+    	ArrayList<Integer> batiments_visite = new ArrayList<>();
     	for(int x = 0; x < prof; ++x) {
         	for(int y = 0; y < larg; ++y) {
         		if(terrain[x][y] != 0) {
-        			if(!batiments.contains(terrain[x][y])) {
+        			if(!batiments_visite.contains(terrain[x][y])) {
+        				batiments_visite.add(terrain[x][y]);
         				batiments.add(li_bat.get(terrain[x][y]));
         			}
         		}
