@@ -6,8 +6,12 @@ import java.util.Random;
 
 public class Terrain {
     private ArrayList<Batiment> li_bat;
+    private ArrayList<Batiment> li_bat_bb;
     private int larg,prof;
     private int terrain[][];
+    private int terrain_bb[][];
+    private int borneSup;
+    private int borneInf;
 
     //constructeur
     public Terrain(int larg, int prof){
@@ -321,6 +325,27 @@ public class Terrain {
     	return aire;
     }
     
+    // Calcul le score du terrain en faisant la somme des aires des batiments
+    public int calculeScore(int plateau[][], ArrayList<Batiment> bat) {
+    	ArrayList<Batiment> batiments = new ArrayList<>();
+    	ArrayList<Integer> batiments_visite = new ArrayList<>();
+    	for(int x = 0; x < prof; ++x) {
+        	for(int y = 0; y < larg; ++y) {
+        		if(terrain[x][y] != 0) {
+        			if(!batiments_visite.contains(plateau[x][y])) {
+        				batiments_visite.add(plateau[x][y]);
+        				batiments.add(bat.get(plateau[x][y]-1));
+        			}
+        		}
+        	}
+        }
+    	int aire = 0;
+    	for(int i = 0; i < batiments.size(); ++i) {
+    		aire += batiments.get(i).getLarg() * batiments.get(i).getProf();
+    	}
+    	return aire;
+    }
+    
     // Ajoute l'hdv aléatoirement sur un terrain vide
     public void ajoutAleatoireHDV() {   	
     	Batiment hdv = this.getHDV();
@@ -402,7 +427,7 @@ public class Terrain {
 			    		    	}
 		    				}
 							else{
-                                System.out.println("Batiment "+(i+1)+"placé =====> (aire:"+li_bat.get(i).getAire()+" , encombrement:"+li_bat.get(i).getEncombrement()+")");
+                                System.out.println("Batiment "+(i+1)+" placé =====> (aire:"+li_bat.get(i).getAire()+" , encombrement:"+li_bat.get(i).getEncombrement()+")");
                                 return;
                             }
 						}
@@ -510,6 +535,55 @@ public class Terrain {
 
     public void gloutonPerso(){
 
+    }
+    
+    public int nbCaseVide(int plateau[][]) {
+    	int nb = 0;
+    	for(int x = 0; x < prof; ++x) {
+        	for(int y = 0; y < larg; ++y) {
+        		if(plateau[x][y] == 0) {
+        			++nb;
+        		}
+        	}
+        }
+    	return nb;
+    }
+    
+    // Fait tourner l'algo gloutonAire et gloutonEncombrement pour récupérer une solution partielle et le majorant
+    public int majorant() {
+    	ArrayList<Batiment> memorise_li_bat = this.li_bat;
+    	int memorise_terrain[][] = this.terrain;
+    	gloutonEncombrement();
+    	int terrain_encombrement[][] = this.terrain;
+    	ArrayList<Batiment> li_bat_encombrement = this.li_bat;
+    	this.li_bat = memorise_li_bat;
+    	this.terrain = memorise_terrain;
+    	gloutonAire();
+    	int terrain_aire[][] = this.terrain;
+    	ArrayList<Batiment> li_bat_aire = this.li_bat;
+    	this.li_bat = memorise_li_bat;
+    	this.terrain = memorise_terrain;
+    	
+    	int nb_vide_encombrement = nbCaseVide(terrain_encombrement);
+    	int nb_vide_aire = nbCaseVide(terrain_aire);
+    	
+    	if(nb_vide_aire >= nb_vide_encombrement) {
+    		this.li_bat_bb = li_bat_aire;
+    		this.terrain_bb = terrain_aire;
+    		return nb_vide_aire;
+    	}
+    	else {
+    		this.li_bat_bb = li_bat_encombrement;
+    		this.terrain_bb = terrain_encombrement;
+    		return nb_vide_encombrement;
+    	}
+    	
+    }
+    
+    public void branchAndBound() {
+    	this.borneSup = majorant();
+    	this.borneInf = 0;
+    	
     }
 
     /***********accesseurs**************/

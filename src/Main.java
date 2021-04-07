@@ -49,7 +49,7 @@ public class Main{
                 br.close();
 
                 // application de l'algo glouton
-                System.out.println("choisissez un algo Glouton à tester parmis les suivants:");
+                System.out.println("Choisissez un algo Glouton à tester parmis les suivants:");
                 Scanner sc=new Scanner(System.in);
                 short test_num;
                 System.out.println(" 1: classique");
