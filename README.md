@@ -29,3 +29,8 @@ Ce projet est réalisée par Baptiste Brinon et Simon Mitaty
     - [ ] implémentation de variants personnalisés
 9. Question 9
     - [ ] rapport (repartition du travail demandée)
+
+### TODO bonus
+    - [ ] amélioration du positionnement de l'HDV
+    - [ ] variant glouton avec ratio encombrement/aire
+    - [ ] variant branch & bound 
