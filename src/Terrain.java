@@ -567,7 +567,7 @@ public class Terrain {
     	int nb_vide_encombrement = nbCaseVide(terrain_encombrement);
     	int nb_vide_aire = nbCaseVide(terrain_aire);
     	
-    	if(nb_vide_aire >= nb_vide_encombrement) {
+    	if(nb_vide_aire <= nb_vide_encombrement) {
     		this.li_bat_bb = li_bat_aire;
     		this.terrain_bb = terrain_aire;
     		return nb_vide_aire;
