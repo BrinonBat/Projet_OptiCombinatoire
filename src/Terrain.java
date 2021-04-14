@@ -45,19 +45,12 @@ public class Terrain {
     }
 */    
     // Regarde si la position du batiment est valide
-    public boolean estValide(Batiment b) {
-    	if((b.getX() + b.getProf() > larg) || (b.getY() + b.getProf() > prof)) // Regarde si la taille ne dépasse pas le terrain
+    public boolean estValide(Batiment b, int bx, int by) {
+    	if((bx + b.getLarg() > larg) || (by + b.getProf() > prof)) // Regarde si la taille ne dépasse pas le terrain
     		return false;
-
-  /*
-        //verifie qu'on ne déborde pas du terrain
-    	if(b.getX()<0 || b.getY()<0 || (b.getX() + b.getProf() > larg) || (b.getY() + b.getProf() > prof)) 
-            return false;
-        // verifie que le batiment ne se superpose pas à un autre
-
-*/
-    	for(int x = b.getX(); x < (b.getX() + b.getProf()); ++x) {
-    		for(int y = b.getY(); y < (b.getY() + b.getLarg()); ++y) {
+    	
+    	for(int x = bx; x < (bx + b.getProf()); ++x) {
+    		for(int y = by; y < (by + b.getLarg()); ++y) {
 				if(terrain[x][y] != 0) // Si la valeur est de 0 c'est que la case est vide sinon elle est occupée
 					return false;
     		}
@@ -536,7 +529,7 @@ public class Terrain {
     
 /////////////////////////////////////////////////// BRANCH & BOUND /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/*
+	
     // Calcul le score du terrain en faisant la somme des aires des batiments
     public int calculeScore(int plateau[][], ArrayList<Batiment> bat) {
     	ArrayList<Batiment> batiments = new ArrayList<>();
@@ -557,62 +550,7 @@ public class Terrain {
     	}
     	return aire;
     }
-    */
-
-    // Fait tourner l'algo gloutonAire et gloutonEncombrement pour récupérer une solution partielle et le majorant
-    public int majorant() {
-    	ArrayList<Batiment> memorise_li_bat = this.li_bat;
-    	int memorise_terrain[][] = this.terrain;
-    	//gloutonEncombrement();
-    	int terrain_encombrement[][] = this.terrain;
-    	ArrayList<Batiment> li_bat_encombrement = this.li_bat;
-    	this.li_bat = memorise_li_bat;
-    	this.terrain = memorise_terrain;
-    	//gloutonAire();
-    	int terrain_aire[][] = this.terrain;
-    	ArrayList<Batiment> li_bat_aire = this.li_bat;
-    	this.li_bat = memorise_li_bat;
-    	this.terrain = memorise_terrain;
-    	
-    	int nb_vide_encombrement = nbCaseVide(terrain_encombrement);
-    	int nb_vide_aire = nbCaseVide(terrain_aire);
-    	
-    	if(nb_vide_aire <= nb_vide_encombrement) {
-    		this.li_bat_bb = li_bat_aire;
-    		this.terrain_bb = terrain_aire;
-    		return nb_vide_aire;
-    	}
-    	else {
-    		this.li_bat_bb = li_bat_encombrement;
-    		this.terrain_bb = terrain_encombrement;
-    		return nb_vide_encombrement;
-    	}
-    	
-    }
     
-    public void branchAndBound() {
-    	this.borneSup = majorant();
-    	this.borneInf = 0;
-    	
-    }
-
-    /***********accesseurs**************/
-
-    // ils serviront pas forcément mais je les ajoutes pour l'instant, au cas où
-
-    //getter
-    public int getLarg(){return larg;}
-    public int getProf(){return prof;}
-    public ArrayList<Batiment> getliBat(){return li_bat;}
-    // retourne l'hotel de ville
-    public Batiment getHDV() {
-    	for(int i = 0; i < li_bat.size(); ++i) {
-    		if(li_bat.get(i).estHDV())
-    			return li_bat.get(i);
-    	}
-    	return null;
-    }
-
 	public void ajoutOptiHDV(){
 		Batiment hdv = this.getHDV();
     	int largeur = hdv.getLarg();
@@ -660,4 +598,101 @@ public class Terrain {
 			}
 		}
 	}
+
+    // Fait tourner l'algo gloutonAire et gloutonEncombrement pour récupérer une solution partielle et le majorant
+    public int majorant() {
+    	ArrayList<Batiment> memorise_li_bat = this.li_bat;
+    	int memorise_terrain[][] = this.terrain;
+    	//gloutonEncombrement();
+    	int terrain_encombrement[][] = this.terrain;
+    	ArrayList<Batiment> li_bat_encombrement = this.li_bat;
+    	this.li_bat = memorise_li_bat;
+    	this.terrain = memorise_terrain;
+    	//gloutonAire();
+    	int terrain_aire[][] = this.terrain;
+    	ArrayList<Batiment> li_bat_aire = this.li_bat;
+    	this.li_bat = memorise_li_bat;
+    	this.terrain = memorise_terrain;
+    	
+    	int score_encombrement = calculeScore(terrain_encombrement, li_bat_encombrement);
+    	int score_aire = calculeScore(terrain_aire, li_bat_aire);
+    	
+    	if(score_aire <= score_encombrement) {
+    		this.li_bat_bb = li_bat_aire;
+    		this.terrain_bb = terrain_aire;
+    		return score_aire;
+    	}
+    	else {
+    		this.li_bat_bb = li_bat_encombrement;
+    		this.terrain_bb = terrain_encombrement;
+    		return score_encombrement;
+    	}
+    	
+    }
+    
+    public void branchAndBound() {
+    	this.borneSup = majorant();
+    	this.borneInf = 0;
+    	
+    	this.ajoutOptiHDV();
+    	
+    	for(int x = 0; x < prof; ++x) {
+        	for(int y = 0; y < larg; ++y) {
+        		if(terrain[x][y] == 0) {  // On regarde si case est vide
+        			int max_aire = 0;
+        			
+        			for(int i = 0; i < li_bat.size(); ++i) {
+        				Batiment bat = li_bat.get(i);
+        				if(!bat.estRelie()) { // Regarde si le batiment n'est pas déjà placé
+	        				int aire = bat.getLarg()*bat.getProf();
+	        				
+	        				if(aire > max_aire && estValide(bat, x, y) && estRelie(x, y, bat.getLarg(), bat.getProf())) {
+	        					max_aire = aire;
+	        					for(int a = x; a < (x + bat.getProf()); ++a) { // On ajoute le batiment
+			    		    		for(int b = y; b < (y + bat.getLarg()); ++b) {
+			    		    			terrain[a][b] = i+1;
+			    		    		}
+			    		    	}
+	        					
+	        					if(!estRelieHDV()) {
+	        						for(int a = x; a < (x + bat.getProf()); ++a) { // On ajoute le batiment
+	    		    		    		for(int b = y; b < (y + bat.getLarg()); ++b) {
+	    		    		    			terrain[a][b] = 0;
+	    		    		    		}
+	    		    		    	}
+	        					}
+	        					else {
+	        						bat.setRelie(true);
+	        					}
+	        				}
+        				}
+        			}
+        			
+        			int score = calculeScore(terrain, li_bat);
+        			if(score > borneSup)
+        				borneSup = score;
+        			if(score > borneInf)
+        				borneInf = score;
+        		}
+        	}
+        }
+    	
+    }
+
+    /***********accesseurs**************/
+
+    // ils serviront pas forcément mais je les ajoutes pour l'instant, au cas où
+
+    //getter
+    public int getLarg(){return larg;}
+    public int getProf(){return prof;}
+    public ArrayList<Batiment> getliBat(){return li_bat;}
+    // retourne l'hotel de ville
+    public Batiment getHDV() {
+    	for(int i = 0; i < li_bat.size(); ++i) {
+    		if(li_bat.get(i).estHDV())
+    			return li_bat.get(i);
+    	}
+    	return null;
+    }
 }
