@@ -48,25 +48,33 @@ public class Main{
                 }
                 br.close();
 
-                // application de l'algo glouton
-                System.out.println("Choisissez un algo Glouton à tester parmis les suivants:");
+
+            // application de l'algo glouton
+                //selection de la méthode de placement de l'HDV
                 Scanner sc=new Scanner(System.in);
+                System.out.println("l'hotel de ville doit-il être placé de façon optimisée? true/false");
+                boolean opti_hdv;
+                opti_hdv=Boolean.parseBoolean(sc.nextLine());
+                System.out.println("valeur saisie: "+opti_hdv);
+
+                //sélection de l'algo glouton à utiliser
+                System.out.println("Choisissez un algo Glouton à tester parmis les suivants:");
                 short test_num;
                 System.out.println(" 1: classique");
                 System.out.println(" 2: bâtiments d'aire maximale en premier");
                 System.out.println(" 3: bâtiments les plus encombrants en premier");
                 System.out.println(" 4: placement des bâtiments dans un ordre aléatoire");
                 System.out.println(" 5: personnalisé");
-
                 test_num=Short.parseShort(sc.nextLine());
+
                 sc.close();
 
                 //effectue le test saisi
                 switch(test_num){
-                    case 1: terrain.glouton(); break;
-                    case 2: terrain.gloutonAire(); break;
-                    case 3: terrain.gloutonEncombrement();  break;
-                    case 4: terrain.gloutonAléatoire(); break;
+                    case 1: terrain.glouton(opti_hdv); break;
+                    case 2: terrain.gloutonAire(opti_hdv); break;
+                    case 3: terrain.gloutonEncombrement(opti_hdv);  break;
+                    case 4: terrain.gloutonAléatoire(opti_hdv); break;
                     case 5: //terrain.gloutonPerso(); break;
                 }
 

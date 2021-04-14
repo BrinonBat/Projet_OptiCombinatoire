@@ -431,8 +431,12 @@ public class Terrain {
 
 
     // Applique l'algorithme glouton
-    public void glouton() {
-    	ajoutAleatoireHDV();
+    public void glouton(boolean opti_hdv) {
+		if(opti_hdv){
+			System.out.println("placement optimisé !");
+			ajoutOptiHDV();
+		}
+		else ajoutAleatoireHDV();
     	repartitionBatiment();
     }
     
@@ -471,9 +475,9 @@ public class Terrain {
     }
 
     //glouton placant en priorité les batiments à plus grand encombrement
-    public void gloutonEncombrement(){
+    public void gloutonEncombrement(boolean opti_hdv){
         quicksortEncombrement(li_bat,0,li_bat.size()-1);
-        glouton();
+        glouton(opti_hdv);
     }
 
     //quicksort basé sur l'aire de chaque batiment
@@ -502,19 +506,19 @@ public class Terrain {
     }
 
     //glouton placant en priorité les batiments qui ont les plus grandes aires
-    public void gloutonAire(){
+    public void gloutonAire(boolean opti_hdv){
         quicksortAire(li_bat, 0 , li_bat.size()-1);
-        glouton();
+        glouton(opti_hdv);
     }
 
     //glouton placant les batiments dans un ordre aléatoire
-    public void gloutonAléatoire(){
+    public void gloutonAléatoire(boolean opti_hdv){
         Collections.shuffle(li_bat);
-    	glouton();
+    	glouton(opti_hdv);
 
     }
 
-    public void gloutonPerso(){
+    public void gloutonPerso(boolean opti_hdv){
 
     }
     
@@ -559,12 +563,12 @@ public class Terrain {
     public int majorant() {
     	ArrayList<Batiment> memorise_li_bat = this.li_bat;
     	int memorise_terrain[][] = this.terrain;
-    	gloutonEncombrement();
+    	//gloutonEncombrement();
     	int terrain_encombrement[][] = this.terrain;
     	ArrayList<Batiment> li_bat_encombrement = this.li_bat;
     	this.li_bat = memorise_li_bat;
     	this.terrain = memorise_terrain;
-    	gloutonAire();
+    	//gloutonAire();
     	int terrain_aire[][] = this.terrain;
     	ArrayList<Batiment> li_bat_aire = this.li_bat;
     	this.li_bat = memorise_li_bat;
@@ -608,4 +612,52 @@ public class Terrain {
     	}
     	return null;
     }
+
+	public void ajoutOptiHDV(){
+		Batiment hdv = this.getHDV();
+    	int largeur = hdv.getLarg();
+    	int profondeur = hdv.getProf();
+
+		Case best_pos=new Case(2,2);
+		int best_score=0;
+
+		for(int l=0;l<=larg/2;l++){
+			for(int c=0; c<=prof/2;c++){
+				if(estVide(l,c,largeur,profondeur)){ // si l'emplacement est valide
+
+					//placement de l'HDV
+					for(int x = l; x < (l + profondeur); x++) {
+						for(int y = c; y < (c + largeur); y++) {
+							terrain[x][y] = 1;
+						}
+					}
+
+					//test du glouton
+					repartitionBatiment();
+					if(best_score<calculeScore()){
+						best_pos.setX(l);
+						best_pos.setY(c);
+						best_score=calculeScore();
+					}
+
+					//vide le terrain
+					for(int x=0;x<this.prof;x++){
+						for(int y=0;y<this.larg;y++){
+							terrain[x][y]=0;
+						}
+					}
+
+					System.out.println("test de "+l+","+c);
+				}
+			}
+		}
+		System.out.println(" le meilleur score est "+best_score);
+
+		//placement de l'HDV à la meilleur position
+		for(int x = best_pos.getX(); x < (best_pos.getX() + profondeur); x++) {
+			for(int y = best_pos.getY(); y < (best_pos.getY() + largeur); y++) {
+				terrain[x][y] = 1;
+			}
+		}
+	}
 }
