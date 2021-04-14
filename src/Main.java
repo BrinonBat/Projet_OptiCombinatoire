@@ -48,7 +48,6 @@ public class Main{
                 }
                 br.close();
 
-
             // application de l'algo glouton
                 //selection de la méthode de placement de l'HDV
                 Scanner sc=new Scanner(System.in);

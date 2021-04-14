@@ -6,10 +6,8 @@ import java.util.Random;
 
 public class Terrain {
     private ArrayList<Batiment> li_bat;
-    private ArrayList<Batiment> li_bat_bb;
     private int larg,prof;
     private int terrain[][];
-    private int terrain_bb[][];
     private int borneSup;
     private int borneInf;
 
@@ -19,8 +17,8 @@ public class Terrain {
         this.larg=larg;
         this.prof=prof;
         this.terrain = new int[larg][prof];
-        for(int x = 0; x < prof; ++x) {
-        	for(int y = 0; y < larg; ++y) {
+        for(int x = 0; x < larg; ++x) {
+        	for(int y = 0; y < prof; ++y) {
         		terrain[x][y] = 0;
         	}
         }
@@ -49,8 +47,8 @@ public class Terrain {
     	if((bx + b.getLarg() > larg) || (by + b.getProf() > prof)) // Regarde si la taille ne dépasse pas le terrain
     		return false;
     	
-    	for(int x = bx; x < (bx + b.getProf()); ++x) {
-    		for(int y = by; y < (by + b.getLarg()); ++y) {
+    	for(int x = bx; x < (bx + b.getLarg()); ++x) {
+    		for(int y = by; y < (by + b.getProf()); ++y) {
 				if(terrain[x][y] != 0) // Si la valeur est de 0 c'est que la case est vide sinon elle est occupée
 					return false;
     		}
@@ -79,8 +77,8 @@ public class Terrain {
     // Retourne le nombre de batiment sur le terrain
     public int getNbBatiment() {
     	ArrayList<Integer> batiments = new ArrayList<>();
-    	for(int x = 0; x < prof; ++x) {
-        	for(int y = 0; y < larg; ++y) {
+    	for(int x = 0; x < larg; ++x) {
+        	for(int y = 0; y < prof; ++y) {
         		if(terrain[x][y] != 0) {
         			if(!batiments.contains(terrain[x][y])) {
         				batiments.add(terrain[x][y]);
@@ -103,7 +101,7 @@ public class Terrain {
     	// On parcoure les cases autour de l'hdv
     	for(int x = (h_x-1); x <= (hdv.getProf() + h_x); ++x) {
     		for(int y = (h_y-1); y <= (hdv.getLarg() + h_y); ++y) {
-    			if(x >= 0 && x < this.prof && y >= 0 && y < this.larg) {
+    			if(x >= 0 && x < this.larg && y >= 0 && y < this.prof) {
     				if(terrain[x][y] == 0) { // ajoute les cases vides qui sont autour de l'hdv
     					//System.out.println("Ajout de la case (" + x + "," + y +")");
     					pile.push(new Case(x,y)); 
@@ -144,7 +142,7 @@ public class Terrain {
     		}
     		
     		// On regarde la case au-desssous de la case courante
-    		if(y+1 < this.larg) {
+    		if(y+1 < this.prof) {
 	    		if(terrain[x][y+1] == 0 ) {
 	    			if(!this.estParcourue(parcourue, new Case(x,y+1))) {
 		    			//System.out.println("Ajout de la case (" + x + "," + (y+1) +")");
@@ -182,7 +180,7 @@ public class Terrain {
     		}
     		
     		// On regarde la case à droite de la case courante
-    		if(x+1 < this.prof) {
+    		if(x+1 < this.larg) {
 	    		if(terrain[x+1][y] == 0 ) {
 	    			if(!this.estParcourue(parcourue, new Case(x+1,y))) {
 		    			//System.out.println("Ajout de la case (" + (x+1) + "," + y +")");
@@ -218,7 +216,7 @@ public class Terrain {
     	// On parcoure les cases autour de l'hdv
     	for(int x = (h_x-1); x <= (hdv.getProf() + h_x); ++x) {
     		for(int y = (h_y-1); y <= (hdv.getLarg() + h_y); ++y) {
-    			if(x >= 0 && x < this.prof && y >= 0 && y < this.larg) {
+    			if(x >= 0 && x < this.larg && y >= 0 && y < this.prof) {
     				if(terrain[x][y] == 0) { // ajoute les cases vides qui sont autour de l'hdv
     					pile.push(new Case(x,y)); 
     					parcourue.add(new Case(x,y));
@@ -235,7 +233,7 @@ public class Terrain {
     		// On regarde la case au-desssus de la case courante
     		if(y-1 >= 0) {
 	    		if(terrain[x][y-1] == 0 ) {
-	    			if(x >= bx && x <= (bx+profondeur) && (y-1) >= by && (y-1) <= (by+largeur)) { // Si les coordonnées correspondent alors la position est relié
+	    			if(x >= bx && x <= (bx+largeur) && (y-1) >= by && (y-1) <= (by+profondeur)) { // Si les coordonnées correspondent alors la position est relié
 	    				return true;
 	    			}
 	    			if(!this.estParcourue(parcourue, new Case(x,y-1))) { // Si la case est vide et est non parcourue on l'ajoute à la pile
@@ -246,9 +244,9 @@ public class Terrain {
     		}
     		
     		// On regarde la case au-desssous de la case courante
-    		if(y+1 < this.larg) {
+    		if(y+1 < this.prof) {
 	    		if(terrain[x][y+1] == 0 ) {
-	    			if(x == bx && x <= (bx+profondeur) && (y+1) == by && (y+1) <= (by+largeur)) { // Si les coordonnées correspondent alors la position est relié
+	    			if(x == bx && x <= (bx+largeur) && (y+1) == by && (y+1) <= (by+profondeur)) { // Si les coordonnées correspondent alors la position est relié
 	    				return true;
 	    			}
 	    			if(!this.estParcourue(parcourue, new Case(x,y+1))) {
@@ -261,7 +259,7 @@ public class Terrain {
     		// On regarde la case à gauche de la case courante
     		if(x-1 >= 0) {
 	    		if(terrain[x-1][y] == 0 ) {
-	    			if((x-1) == bx && (x-1) <= (bx+profondeur) && y == by && y <= (by+largeur)) { // Si les coordonnées correspondent alors la position est relié
+	    			if((x-1) == bx && (x-1) <= (bx+largeur) && y == by && y <= (by+profondeur)) { // Si les coordonnées correspondent alors la position est relié
 	    				return true;
 	    			}
 	    			if(!this.estParcourue(parcourue, new Case(x-1,y))) {
@@ -274,7 +272,7 @@ public class Terrain {
     		// On regarde la case à droite de la case courante
     		if(x+1 < this.prof) {
 	    		if(terrain[x+1][y] == 0 ) {
-	    			if((x+1) == bx && (x+1) <= (bx+profondeur) && y == by && y <= (by+largeur)) { // Si les coordonnées correspondent alors la position est relié
+	    			if((x+1) == bx && (x+1) <= (bx+largeur) && y == by && y <= (by+profondeur)) { // Si les coordonnées correspondent alors la position est relié
 	    				return true;
 	    			}
 	    			if(!this.estParcourue(parcourue, new Case(x+1,y))) {
@@ -301,8 +299,8 @@ public class Terrain {
     public int calculeScore() {
     	ArrayList<Batiment> batiments = new ArrayList<>();
     	ArrayList<Integer> batiments_visite = new ArrayList<>();
-    	for(int x = 0; x < prof; ++x) {
-        	for(int y = 0; y < larg; ++y) {
+    	for(int x = 0; x < larg; ++x) {
+        	for(int y = 0; y < prof; ++y) {
         		if(terrain[x][y] != 0) {
         			if(!batiments_visite.contains(terrain[x][y])) {
         				batiments_visite.add(terrain[x][y]);
@@ -325,9 +323,9 @@ public class Terrain {
     	int profondeur = hdv.getProf();
     	ArrayList<Case> valides = new ArrayList<Case>(); // Liste des positions valides
     	
-    	for(int x = 0; x < this.prof; ++x) {
-    		for(int y = 0; y < this.larg; ++y) {
-    			if((x+profondeur) <= this.prof && (y+largeur) <= this.larg) {
+    	for(int x = 0; x < this.larg; ++x) {
+    		for(int y = 0; y < this.prof; ++y) {
+    			if((x+profondeur) <= this.larg && (y+largeur) <= this.prof) {
     				valides.add(new Case(x,y)); // On ajoute toutes les positions valides
     			}
     		}
@@ -337,8 +335,8 @@ public class Terrain {
     	int indice = rand.nextInt(valides.size()); // On tire une position aléatoire
     	Case pos = valides.get(indice);
 
-    	for(int x = pos.getX(); x < (pos.getX() + profondeur); ++x) {
-    		for(int y = pos.getY(); y < (pos.getY() + largeur); ++y) {
+    	for(int x = pos.getX(); x < (pos.getX() + largeur); ++x) {
+    		for(int y = pos.getY(); y < (pos.getY() + profondeur); ++y) {
     			terrain[x][y] = 1;
     		}
     	}
@@ -354,8 +352,8 @@ public class Terrain {
     // et ne bloque pas de route pour un autre batiment
     // alors on l'ajoute
     public void repartitionBatiment() {
-    	for(int x = 0; x < prof; ++x) {
-    		for(int y = 0; y < larg; ++y) {
+    	for(int x = 0; x < larg; ++x) {
+    		for(int y = 0; y < prof; ++y) {
     			if(terrain[x][y] == 0) {
     				getBatimentBienPlace(x,y);		
     			}    			
@@ -365,8 +363,8 @@ public class Terrain {
     
     // Retourne vrai si un batiment est déjà présent sur le terrain
     public boolean batimentDejaPlace(int indice) {
-    	for(int x = 0; x < prof; ++x) {
-    		for(int y = 0; y < larg; ++y) {
+    	for(int x = 0; x < larg; ++x) {
+    		for(int y = 0; y < prof; ++y) {
     			if(terrain[x][y] == indice) {
     				return true;
     			}    			
@@ -382,20 +380,21 @@ public class Terrain {
 				Batiment bat = li_bat.get(i);
 				int largeur = bat.getLarg();
 				int profondeur = bat.getProf();
-				if((x+profondeur) <= prof && (y+largeur) <= larg) { // Si le batiment rentre dans le terrain
+				
+				if((x+largeur) <= prof && (y+profondeur) <= larg) { // Si le batiment rentre dans le terrain
 					if(estVide(x,y,largeur,profondeur)) { // Si le batiment peut-être ajouté à la position courante
 						if(estRelie(x,y,largeur,profondeur)) { // Si la position est relié à l'hdv
 							//System.out.println("Batiment " + (i+1) + " est placé et est relié");
-							for(int a = x; a < (x + profondeur); ++a) { // On ajoute le batiment
-		    		    		for(int b = y; b < (y + largeur); ++b) {
+							for(int a = x; a < (x + largeur); ++a) { // On ajoute le batiment
+		    		    		for(int b = y; b < (y + profondeur); ++b) {
 		    		    			terrain[a][b] = i+1;
 		    		    		}
 		    		    	}
 							//this.afficherTerrain();
 							if(!estRelieHDV()) { // Si tous les batiments ne sont pas relié après l'ajout alors on retire le batiment
 		    					//System.out.println("Batiment " + (i+1) + " bloque une route");
-		    					for(int a = x; a < (x + profondeur); ++a) {
-			    		    		for(int b = y; b < (y + largeur); ++b) {
+		    					for(int a = x; a < (x + largeur); ++a) {
+			    		    		for(int b = y; b < (y + profondeur); ++b) {
 			    		    			terrain[a][b] = 0;
 			    		    		}
 			    		    	}
@@ -413,8 +412,8 @@ public class Terrain {
     
     // Regarde si l'espace représenté par les données est vide
     public boolean estVide(int x, int y, int largeur, int profondeur) {
-    	for(int a = x; a < (x+profondeur); ++a) {
-			for(int b = y; b < (y+largeur); ++b) {
+    	for(int a = x; a < (x+largeur); ++a) {
+			for(int b = y; b < (y+profondeur); ++b) {
 				if(terrain[a][b] != 0)
 					return false;
 			}
@@ -517,8 +516,8 @@ public class Terrain {
     
     public int nbCaseVide(int plateau[][]) {
     	int nb = 0;
-    	for(int x = 0; x < prof; ++x) {
-        	for(int y = 0; y < larg; ++y) {
+    	for(int x = 0; x < larg; ++x) {
+        	for(int y = 0; y < prof; ++y) {
         		if(plateau[x][y] == 0) {
         			++nb;
         		}
@@ -534,8 +533,8 @@ public class Terrain {
     public int calculeScore(int plateau[][], ArrayList<Batiment> bat) {
     	ArrayList<Batiment> batiments = new ArrayList<>();
     	ArrayList<Integer> batiments_visite = new ArrayList<>();
-    	for(int x = 0; x < prof; ++x) {
-        	for(int y = 0; y < larg; ++y) {
+    	for(int x = 0; x < larg; ++x) {
+        	for(int y = 0; y < prof; ++y) {
         		if(terrain[x][y] != 0) {
         			if(!batiments_visite.contains(plateau[x][y])) {
         				batiments_visite.add(plateau[x][y]);
@@ -579,8 +578,8 @@ public class Terrain {
 					}
 
 					//vide le terrain
-					for(int x=0;x<this.prof;x++){
-						for(int y=0;y<this.larg;y++){
+					for(int x=0;x<this.larg;x++){
+						for(int y=0;y<this.prof;y++){
 							terrain[x][y]=0;
 						}
 					}
@@ -590,10 +589,11 @@ public class Terrain {
 			}
 		}
 		System.out.println(" le meilleur score est "+best_score);
+		System.out.println(" meilleur position : " + best_pos.getX() + "," + best_pos.getY());
 
 		//placement de l'HDV à la meilleur position
-		for(int x = best_pos.getX(); x < (best_pos.getX() + profondeur); x++) {
-			for(int y = best_pos.getY(); y < (best_pos.getY() + largeur); y++) {
+		for(int x = best_pos.getX(); x < (best_pos.getX() + largeur); x++) {
+			for(int y = best_pos.getY(); y < (best_pos.getY() + profondeur); y++) {
 				terrain[x][y] = 1;
 			}
 		}
@@ -618,13 +618,9 @@ public class Terrain {
     	int score_aire = calculeScore(terrain_aire, li_bat_aire);
     	
     	if(score_aire <= score_encombrement) {
-    		this.li_bat_bb = li_bat_aire;
-    		this.terrain_bb = terrain_aire;
     		return score_aire;
     	}
     	else {
-    		this.li_bat_bb = li_bat_encombrement;
-    		this.terrain_bb = terrain_encombrement;
     		return score_encombrement;
     	}
     	
@@ -636,9 +632,9 @@ public class Terrain {
     	
     	this.ajoutOptiHDV();
     	
-    	for(int x = 0; x < prof; ++x) {
-        	for(int y = 0; y < larg; ++y) {
-        		if(terrain[x][y] == 0) {  // On regarde si case est vide
+    	for(int x = 0; x < larg; ++x) {
+        	for(int y = 0; y < prof; ++y) {
+        		if(terrain[x][y] == 0) {  // On regarde si la case est vide
         			int max_aire = 0;
         			
         			for(int i = 0; i < li_bat.size(); ++i) {
@@ -648,15 +644,15 @@ public class Terrain {
 	        				
 	        				if(aire > max_aire && estValide(bat, x, y) && estRelie(x, y, bat.getLarg(), bat.getProf())) {
 	        					max_aire = aire;
-	        					for(int a = x; a < (x + bat.getProf()); ++a) { // On ajoute le batiment
-			    		    		for(int b = y; b < (y + bat.getLarg()); ++b) {
+	        					for(int a = x; a < (x + bat.getLarg()); ++a) { // On ajoute le batiment
+			    		    		for(int b = y; b < (y + bat.getProf()); ++b) {
 			    		    			terrain[a][b] = i+1;
 			    		    		}
 			    		    	}
 	        					
 	        					if(!estRelieHDV()) {
-	        						for(int a = x; a < (x + bat.getProf()); ++a) { // On ajoute le batiment
-	    		    		    		for(int b = y; b < (y + bat.getLarg()); ++b) {
+	        						for(int a = x; a < (x + bat.getLarg()); ++a) { // On ajoute le batiment
+	    		    		    		for(int b = y; b < (y + bat.getProf()); ++b) {
 	    		    		    			terrain[a][b] = 0;
 	    		    		    		}
 	    		    		    	}
