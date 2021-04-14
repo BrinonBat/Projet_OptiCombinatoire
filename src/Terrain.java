@@ -324,7 +324,7 @@ public class Terrain {
     	}
     	return aire;
     }
-    
+    /*
     // Calcul le score du terrain en faisant la somme des aires des batiments
     public int calculeScore(int plateau[][], ArrayList<Batiment> bat) {
     	ArrayList<Batiment> batiments = new ArrayList<>();
@@ -345,7 +345,7 @@ public class Terrain {
     	}
     	return aire;
     }
-    
+    */
     // Ajoute l'hdv aléatoirement sur un terrain vide
     public void ajoutAleatoireHDV() {   	
     	Batiment hdv = this.getHDV();
@@ -372,7 +372,9 @@ public class Terrain {
     	}
 
     }
-    
+
+/////////////////////////////////////////////////// GLOUTONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     // On parcoure chaque case du terrain
     // Si à la position courante on peut ajouter un batiment qui
     // a une position valide,
@@ -447,8 +449,6 @@ public class Terrain {
 		}
     	return true;
     }
-
-
 
 
     // Applique l'algorithme glouton
@@ -549,6 +549,8 @@ public class Terrain {
     	return nb;
     }
     
+/////////////////////////////////////////////////// BRANCH & BOUND /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     // Fait tourner l'algo gloutonAire et gloutonEncombrement pour récupérer une solution partielle et le majorant
     public int majorant() {
     	ArrayList<Batiment> memorise_li_bat = this.li_bat;
