@@ -59,23 +59,25 @@ public class Main{
                 System.out.println(" 5: personnalisé");
 
                 test_num=Short.parseShort(sc.nextLine());
+                sc.close();
 
                 //effectue le test saisi
                 switch(test_num){
-                    case 1: terrain.glouton(); terrain.affichageGlouton(); break;
-                    case 2: terrain.gloutonAire(); terrain.affichageGlouton(); break;
-                    case 3: terrain.gloutonEncombrement(); terrain.affichageGlouton(); break;
-                    case 4: terrain.gloutonAléatoire(); terrain.affichageGlouton(); break;
-                    case 5: //terrain.gloutonPerso(); terrain.affichageGlouton(); break;
+                    case 1: terrain.glouton(); break;
+                    case 2: terrain.gloutonAire(); break;
+                    case 3: terrain.gloutonEncombrement();  break;
+                    case 4: terrain.gloutonAléatoire(); break;
+                    case 5: //terrain.gloutonPerso(); break;
                 }
-                sc.close();
+
+                //affichage du résultat
+                terrain.affichageGlouton();
             } catch (FileNotFoundException e) {
                 System.out.println(" erreur dans le main lors de la lecture du fichier");
                 e.printStackTrace();
             }
             
         }
-    	
         
     }
 
