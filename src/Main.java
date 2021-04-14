@@ -62,11 +62,11 @@ public class Main{
 
                 //effectue le test saisi
                 switch(test_num){
-                    case 1: terrain.glouton(); break;
-                    case 2: terrain.gloutonAire(); break;
-                    case 3: terrain.gloutonEncombrement(); break;
-                    case 4: terrain.gloutonAléatoire(); break;
-                    case 5: //terrain.gloutonPerso(); break;
+                    case 1: terrain.glouton(); terrain.affichageGlouton(); break;
+                    case 2: terrain.gloutonAire(); terrain.affichageGlouton(); break;
+                    case 3: terrain.gloutonEncombrement(); terrain.affichageGlouton(); break;
+                    case 4: terrain.gloutonAléatoire(); terrain.affichageGlouton(); break;
+                    case 5: //terrain.gloutonPerso(); terrain.affichageGlouton(); break;
                 }
                 sc.close();
             } catch (FileNotFoundException e) {

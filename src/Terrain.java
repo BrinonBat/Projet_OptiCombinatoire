@@ -432,11 +432,13 @@ public class Terrain {
 
     // Applique l'algorithme glouton
     public void glouton() {
-    	// je vois pas pourquoi t'avais mis cette ligne (déjà dans le constructeur), donc je la commente plutôt que la supprimer : terrain = new int[larg][prof];
     	ajoutAleatoireHDV();
     	repartitionBatiment();
+    }
+    
+    // Applique l'algorithme glouton avec affichage du 
+    public void affichageGlouton() {
 
-        System.out.println("placement dans l'ordre:");
     	System.out.println("====== Résultat ======");
     	afficherTerrain();
     	System.out.println("Score : " + calculeScore());
