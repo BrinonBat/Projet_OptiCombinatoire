@@ -324,28 +324,7 @@ public class Terrain {
     	}
     	return aire;
     }
-    /*
-    // Calcul le score du terrain en faisant la somme des aires des batiments
-    public int calculeScore(int plateau[][], ArrayList<Batiment> bat) {
-    	ArrayList<Batiment> batiments = new ArrayList<>();
-    	ArrayList<Integer> batiments_visite = new ArrayList<>();
-    	for(int x = 0; x < prof; ++x) {
-        	for(int y = 0; y < larg; ++y) {
-        		if(terrain[x][y] != 0) {
-        			if(!batiments_visite.contains(plateau[x][y])) {
-        				batiments_visite.add(plateau[x][y]);
-        				batiments.add(bat.get(plateau[x][y]-1));
-        			}
-        		}
-        	}
-        }
-    	int aire = 0;
-    	for(int i = 0; i < batiments.size(); ++i) {
-    		aire += batiments.get(i).getLarg() * batiments.get(i).getProf();
-    	}
-    	return aire;
-    }
-    */
+    
     // Ajoute l'hdv aléatoirement sur un terrain vide
     public void ajoutAleatoireHDV() {   	
     	Batiment hdv = this.getHDV();
@@ -550,6 +529,29 @@ public class Terrain {
     }
     
 /////////////////////////////////////////////////// BRANCH & BOUND /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/*
+    // Calcul le score du terrain en faisant la somme des aires des batiments
+    public int calculeScore(int plateau[][], ArrayList<Batiment> bat) {
+    	ArrayList<Batiment> batiments = new ArrayList<>();
+    	ArrayList<Integer> batiments_visite = new ArrayList<>();
+    	for(int x = 0; x < prof; ++x) {
+        	for(int y = 0; y < larg; ++y) {
+        		if(terrain[x][y] != 0) {
+        			if(!batiments_visite.contains(plateau[x][y])) {
+        				batiments_visite.add(plateau[x][y]);
+        				batiments.add(bat.get(plateau[x][y]-1));
+        			}
+        		}
+        	}
+        }
+    	int aire = 0;
+    	for(int i = 0; i < batiments.size(); ++i) {
+    		aire += batiments.get(i).getLarg() * batiments.get(i).getProf();
+    	}
+    	return aire;
+    }
+    */
 
     // Fait tourner l'algo gloutonAire et gloutonEncombrement pour récupérer une solution partielle et le majorant
     public int majorant() {
