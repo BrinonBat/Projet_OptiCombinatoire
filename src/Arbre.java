@@ -23,7 +23,7 @@ class Noeud{
         fils.add(n);
     }
 
-    //supprime ses fils (fait itérativement, permet de supprimer toute sa branche)
+    //supprime ses fils (fait récursivement, permet de supprimer toute sa branche)
     public void delFils(){
         for (int i = 0; i < fils.size(); i++) {
             fils.get(i).delFils();
@@ -76,13 +76,14 @@ public class Arbre {
 
         //on retire de la liste les batiments qui n'étaient pas placés
         for(int i=li_bat.size()-1;i>=0;i--){
-            if(li_bat_noeuds.get(i).estRelie()==false)li_bat_noeuds.remove(i);
+            if(!li_bat_noeuds.get(i).estRelie())
+            	li_bat_noeuds.remove(i);
         }
 
         racine=new Noeud(li_bat.get(0));
         ArrayList<Noeud> li_noeuds=new ArrayList<Noeud>();
         li_noeuds.add(racine);
-        for (int i=0;i<li_bat_noeuds.size();i++) {
+        for (int i=1;i<li_bat_noeuds.size();i++) {
             li_noeuds.add(i, new Noeud(li_bat_noeuds.get(i)));
             li_noeuds.get(i-1).addFils(li_noeuds.get(i)); // ajout du nouveau noeud comme fils du précédant
         }
