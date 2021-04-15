@@ -585,7 +585,7 @@ public class Terrain {
     public void gloutonPerso(boolean opti_hdv,boolean verbose){
 		Collections.sort(li_bat,new SortByCoeff());
 		for (int i = 0; i < li_bat.size(); i++) {
-			System.out.println(" batiment "+i+" d'id "+li_bat.get(i).getId()+" a le coeff "+((float)li_bat.get(i).getAire()/(float)li_bat.get(i).getEncombrement()));
+			if(verbose)System.out.println(" batiment "+i+" d'id "+li_bat.get(i).getId()+" a le coeff "+((float)li_bat.get(i).getAire()/(float)li_bat.get(i).getEncombrement()));
 		}
 		glouton(opti_hdv,verbose);
     }
@@ -593,7 +593,7 @@ public class Terrain {
 	public void gloutonAireEtEncombrement(boolean opti_hdv,boolean verbose){
 		Collections.sort(li_bat,new AireSortPerso());
 		for (int i = 0; i < li_bat.size(); i++) {
-			System.out.println(" batiment "+i+" d'id "+li_bat.get(i).getId()+"et d'aire "+li_bat.get(i).getAire()+" a le coeff "+((float)li_bat.get(i).getAire()/(float)li_bat.get(i).getEncombrement()));
+			if(verbose)System.out.println(" batiment "+i+" d'id "+li_bat.get(i).getId()+"et d'aire "+li_bat.get(i).getAire()+" a le coeff "+((float)li_bat.get(i).getAire()/(float)li_bat.get(i).getEncombrement()));
 		}
 		glouton(opti_hdv,verbose);
     }
@@ -686,7 +686,7 @@ public class Terrain {
 	}
 
     // Fait tourner l'algo gloutonAire et gloutonEncombrement pour récupérer une solution partielle et le majorant
-    public int majorant() {
+    public int majorant(ArrayList<Batiment> major_list) {
     	ArrayList<Batiment> memorise_li_bat = this.li_bat;
     	int memorise_terrain[][] = this.terrain;
     	gloutonEncombrement(true,false);
@@ -704,16 +704,19 @@ public class Terrain {
     	int score_aire = calculeScore(terrain_aire, li_bat_aire);
     	
     	if(score_aire <= score_encombrement) {
+			major_list=li_bat_aire; // solution partielle
     		return score_aire;
     	}
     	else {
+			major_list=li_bat_encombrement; //solution partielle
     		return score_encombrement;
     	}
     	
     }
     
     public void branchAndBound() {
-    	this.borneSup = majorant();
+		ArrayList<Batiment> result_majorant=new ArrayList<Batiment>();
+    	this.borneSup = majorant(result_majorant);
     	this.borneInf = 0;
     	
     	this.ajoutOptiHDV();

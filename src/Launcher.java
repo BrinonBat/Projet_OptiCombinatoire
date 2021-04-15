@@ -5,7 +5,7 @@ public class Launcher {
         terrain=t;
     }
 
-    public void teste(int nb_rep,int algo){
+    public void effectuer(int nb_rep,int algo){
         int sum=0;
         int square_sum=0;
         switch(algo){

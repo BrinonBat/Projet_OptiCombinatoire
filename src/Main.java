@@ -70,12 +70,7 @@ public class Main{
 
                 sc.close();
                 
-                Launcher mult_test=new Launcher(terrain);
-                mult_test.teste(5000,test_num);
-                
-
                 //effectue le test saisi
-                /*
                 switch(test_num){
                     case 1: terrain.glouton(opti_hdv,true); break;
                     case 2: terrain.gloutonEncombrement(opti_hdv,true);  break;
@@ -86,9 +81,15 @@ public class Main{
                     case 7: terrain.branchAndBound();break;
                     default: System.out.println(" entrez une valeur entre 1 et 7 inclus");break;
                 }
-                */
+                
                 //affichage du résultat
                 terrain.affichageResultat();
+
+                /* 
+                Launcher mult_test=new Launcher(terrain);
+                mult_test.effectuer(5000,test_num);
+                */
+
             } catch (FileNotFoundException e) {
                 System.out.println(" erreur dans le main lors de la lecture du fichier");
                 e.printStackTrace();

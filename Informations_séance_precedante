@@ -10,6 +10,11 @@ ajout d'un Id aux batiments pour facilement retrouver le numero de la ligne asso
 ajout du glouton par coef perso (meilleur sur l'instance 03)
 ajout du glouton par aire amélioré (aire+coef)
 
+/!\ avec les X et Y des batiments étant implémantés, on peut désormais utiliser une liste de batiment comme branche de l'arbre du branch&bound. 
+    Il suffit alors ensuite de poser les batiments sur le terrain aux positions enregistrées dans les batiments de la liste
+
+début de la mise en place d'une classe Arbre pour aider au branch&bound
+
 Propositions :   estRelieHDV -> tousRelieHDV & relieHDV -> estRelieHDV
                 (optionnel)  à faire & mettre dans le rapport que aprés étude, on a vu que sur chaque cas l'aire a de meilleurs scores que l'encombrement, et que donc on retire l'encombrement du calcul du majorant
                 
