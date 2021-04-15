@@ -5,6 +5,10 @@ Projet réalisé durant la 1ère année de master à l'université d'Angers. Il 
 
 Ce projet est réalisée par Baptiste Brinon et Simon Mitaty
 
+### A Savoir
+Le numero visible sur le terrain est l'ID du batiment.
+l'ID du batiment est le numero de sa ligne dans le fichier instance moins 2.
+
 ### Liste des tâches
 0. mise en place du Github (Baptiste)
 1. Question 1
@@ -12,9 +16,9 @@ Ce projet est réalisée par Baptiste Brinon et Simon Mitaty
 2. Question 2
     - [x] Affichage (Baptiste & Simon)
 3. Question 3
-    - [x] placement des bâtiments (Simon)
+    - [x] placement des bâtiments (Simon & Baptiste)
     - [x] verification de placement correct (Baptiste)
-4. Question 4 (peut-être fait à la fin si trop compliqué) (Baptiste & Simon)
+4. Question 4 (Baptiste & Simon)
     - [x] verification relié à hotel de ville
     - [x] marquage des batiments reliés
 5. Question 5
@@ -31,6 +35,7 @@ Ce projet est réalisée par Baptiste Brinon et Simon Mitaty
     - [ ] rapport (repartition du travail demandée)
 
 ### TODO bonus
+    - [x] ajout de l'ID pour l'affichage plutôt que l'ordre dans la liste (car elle varie en fonction du glouton choisi)
     - [ ] amélioration du positionnement de l'HDV
     - [ ] variant glouton avec ratio encombrement/aire
     - [ ] variant branch & bound 
