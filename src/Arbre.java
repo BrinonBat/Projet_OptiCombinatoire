@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 class Noeud{
-    private Noeud père;
+    private Noeud pere;
     private ArrayList<Noeud> fils;
     private Batiment b;
     private boolean est_ferme;
@@ -11,13 +11,13 @@ class Noeud{
     }
 
     /******accesseurs******/
-    public Noeud getPere(){return père;}
+    public Noeud getPere(){return pere;}
     public Batiment getBat(){return b;}
     public Noeud getFils(int pos){return fils.get(pos);}
     public int getNbFils(){return fils.size();}
     public boolean estFerme(){return est_ferme;}
     public void ferme(){est_ferme=true;}
-    public void setPere(Noeud p){this.père=p;}
+    public void setPere(Noeud p){this.pere=p;}
     public void addFils(Noeud n){
         n.setPere(this);
         fils.add(n);
