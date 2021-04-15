@@ -1,11 +1,12 @@
 public class Batiment {
-    private int x,y,larg,prof;
+    private int id,x,y,larg,prof;
     private boolean est_HDV,est_relie;
 
     /********constructeurs**************/
 
     // constructeur par défaut
-    public Batiment(int larg, int prof){
+    public Batiment(int id,int larg, int prof){
+        this.id=id;
         this.larg=larg;
         this.prof=prof;
         est_HDV=false;
@@ -13,7 +14,8 @@ public class Batiment {
     }
 
     //constructeur HDV
-    public Batiment(int larg, int prof, boolean hdv){
+    public Batiment(int id,int larg, int prof, boolean hdv){
+        this.id=id;
         this.larg=larg;
         this.prof=prof;
         est_HDV=hdv;
@@ -21,7 +23,8 @@ public class Batiment {
     }
 
     //constructeur temporaire pour les tests, en attendant d'avoir la fonction de placement
-    public Batiment(int x,int y,int larg, int prof){
+    public Batiment(int id,int x,int y,int larg, int prof){
+        this.id=id;
         this.x=x;
         this.y=y;
         this.larg=larg;
@@ -30,13 +33,14 @@ public class Batiment {
         est_relie=false;
     }
     
-    public Batiment(int x,int y,int larg, int prof, boolean hdv){
+    public Batiment(int id,int x,int y,int larg, int prof, boolean hdv){
+        this.id=id;
         this.x=x;
         this.y=y;
         this.larg=larg;
         this.prof=prof;
         est_HDV=hdv;
-        est_relie=false;
+        est_relie=hdv;
     }
 
     /************méthodes***************/
@@ -50,12 +54,13 @@ public class Batiment {
     /***********accesseurs**************/
 
     //getters
+    public int getId(){return id;}
     public int getX(){return x;}
     public int getY(){return y;}
     public int getLarg(){return larg;}
     public int getProf(){return prof;}
     public int getAire(){return larg*prof;}
-    public int getEncombrement(){return larg+prof;}
+    public int getEncombrement(){return (larg+prof)*2;}
     public boolean estHDV(){return est_HDV;}
     public boolean estRelie(){return est_relie;}
 
@@ -65,6 +70,9 @@ public class Batiment {
         this.y=new_y;
     }
     public void setRelie(boolean relie){this.est_relie=relie;}
-
+    public void desinstaller(){
+        this.x=-1;
+        this.y=-1;
+    }
 
 }

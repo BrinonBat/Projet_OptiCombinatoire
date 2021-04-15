@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Deque;
 import java.util.Random;
 
+
 public class Terrain {
     private ArrayList<Batiment> li_bat;
     private int larg,prof;
@@ -26,22 +27,46 @@ public class Terrain {
 
     /************méthodes***************/
 
-/*
     // Ajoute un batiment sur le terrain
-    public void addBatiment(Batiment b) {
-    	if(estValide(b)) {
-	    	li_bat.add(b);
-	    	for(int x = b.getX(); x < (b.getX() + b.getProf()); ++x) {
-	    		for(int y = b.getY(); y < (b.getY() + b.getLarg()); ++y) {
-    				terrain[x][y] = li_bat.size();
-	    		}
-	    	}
-    	}
-    	else {
-    		System.out.println(" \n Erreur !! Position du batiment " + (li_bat.size()+1) + " incorrecte \n");
-    	}
+    public void poseBatiment(Batiment b, int bx, int by) {
+		b.deplacer(bx, by);
+		//System.out.println(" batiment posé en "+b.getX()+","+b.getY());
+		for(int x = bx; x < (bx + b.getLarg()); ++x) {
+			for(int y = by; y < (by + b.getProf()); ++y) {
+				terrain[x][y] = b.getId();
+			}
+		}
+		b.setRelie(true);
     }
-*/    
+
+	//retire un batiment du terrain
+	public void retireBatiment(Batiment b){
+		System.out.println("retire le batiment "+b.getId()+" situé en "+b.getX()+","+b.getY());
+		for(int x = b.getX(); x < (b.getX() + b.getLarg()); ++x) {
+			for(int y = b.getY(); y < (b.getY() + b.getProf()); ++y) {
+				terrain[x][y] = 0;
+			}
+		}
+		b.setRelie(false);
+		b.desinstaller();
+	}
+
+	//vide le terrain
+	public void terrainVide(){
+		for(int i=li_bat.size()-1;i>=0;i--){
+			if(li_bat.get(i).estRelie()) retireBatiment(li_bat.get(i));
+		}
+	}
+    
+	//retourne le batiment présent aux coordonnées x,y
+	private Batiment batA(int x,int y){
+		int id=terrain[x][y];
+		for (Batiment bat : li_bat) {
+			if(bat.getId()==id) return bat;
+		}
+		return null;
+	}
+
     // Regarde si la position du batiment est valide
     public boolean estValide(Batiment b, int bx, int by) {
     	if((bx + b.getLarg() > larg) || (by + b.getProf() > prof)) // Regarde si la taille ne dépasse pas le terrain
@@ -76,6 +101,7 @@ public class Terrain {
     
     // Retourne le nombre de batiment sur le terrain
     public int getNbBatiment() {
+		/*
     	ArrayList<Integer> batiments = new ArrayList<>();
     	for(int x = 0; x < larg; ++x) {
         	for(int y = 0; y < prof; ++y) {
@@ -87,6 +113,12 @@ public class Terrain {
         	}
         }
     	return batiments.size();
+		*/
+		int nbBat=0;
+		for(int i=0;i<li_bat.size();i++){
+			if(li_bat.get(i).estRelie()) nbBat++;
+		}
+		return nbBat;
     }
     
     // Regarde si chaque batiment présent dans le terrain est relié à l'hotel de ville
@@ -99,8 +131,8 @@ public class Terrain {
     	ArrayList<Case> parcourue = new ArrayList<Case>();
     	
     	// On parcoure les cases autour de l'hdv
-    	for(int x = (h_x-1); x <= (hdv.getProf() + h_x); ++x) {
-    		for(int y = (h_y-1); y <= (hdv.getLarg() + h_y); ++y) {
+    	for(int x = (h_x-1); x <= (hdv.getLarg() + h_x); ++x) {
+    		for(int y = (h_y-1); y <= (hdv.getProf() + h_y); ++y) {
     			if(x >= 0 && x < this.larg && y >= 0 && y < this.prof) {
     				if(terrain[x][y] == 0) { // ajoute les cases vides qui sont autour de l'hdv
     					//System.out.println("Ajout de la case (" + x + "," + y +")");
@@ -123,7 +155,7 @@ public class Terrain {
     		//System.out.println("Case (" + x + "," + y + ")");
     		
     		// On regarde la case au-desssus de la case courante
-    		if(y-1 >= 0) {
+    		if(x>=0 && y-1 >= 0) {
 	    		if(terrain[x][y-1] == 0 ) {
 	    			if(!this.estParcourue(parcourue, new Case(x,y-1))) { // Si la case est vide et est non parcourue on l'ajoute à la pile
 		    			//System.out.println("Ajout de la case (" + x + "," + (y-1) +")");
@@ -132,9 +164,9 @@ public class Terrain {
 	    			}
 	    		}
 	    		else { // Sinon c'est un batiment
-	    			if(!li_bat.get(terrain[x][y-1]-1).estRelie()) { // s'il est pas déjà indiqué comme relié alors on le relie
+	    			if(!batA(x,y-1).estRelie()) { // s'il est pas déjà indiqué comme relié alors on le relie
 	    				//System.out.println("Batiment " + terrain[x][y-1] + " est relié à l'hdv");
-	    				li_bat.get(terrain[x][y-1]-1).setRelie(true);
+	    				batA(x,y-1).setRelie(true);
 	    			}
 	    			if(!estRelie.contains(terrain[x][y-1]-1))
 	    				estRelie.add(terrain[x][y-1]-1);
@@ -142,7 +174,7 @@ public class Terrain {
     		}
     		
     		// On regarde la case au-desssous de la case courante
-    		if(y+1 < this.prof) {
+    		if(x>=0 && y+1 < this.prof) {
 	    		if(terrain[x][y+1] == 0 ) {
 	    			if(!this.estParcourue(parcourue, new Case(x,y+1))) {
 		    			//System.out.println("Ajout de la case (" + x + "," + (y+1) +")");
@@ -151,9 +183,9 @@ public class Terrain {
 	    			}
 	    		}
 	    		else {
-	    			if(!li_bat.get(terrain[x][y+1]-1).estRelie()) {
+	    			if(!batA(x,y+1).estRelie()) {
 	    				//System.out.println("Batiment " + terrain[x][y+1] + " est relié à l'hdv");
-	    				li_bat.get(terrain[x][y+1]-1).setRelie(true);
+	    				batA(x,y+1).setRelie(true);
 	    			}
 	    			if(!estRelie.contains(terrain[x][y+1]-1))
 	    				estRelie.add(terrain[x][y+1]-1);
@@ -161,7 +193,7 @@ public class Terrain {
     		}
     		
     		// On regarde la case à gauche de la case courante
-    		if(x-1 >= 0) {
+    		if(x-1 >= 0 && y>=0) {
 	    		if(terrain[x-1][y] == 0 ) {
 	    			if(!this.estParcourue(parcourue, new Case(x-1,y))) {
 		    			//System.out.println("Ajout de la case (" + (x-1) + "," + y +")");
@@ -170,9 +202,9 @@ public class Terrain {
 	    			}
 	    		}
 	    		else {
-	    			if(!li_bat.get(terrain[x-1][y]-1).estRelie()) {
+	    			if(!batA(x-1,y).estRelie()) {
 	    				//System.out.println("Batiment " + terrain[x-1][y] + " est relié à l'hdv");
-	    				li_bat.get(terrain[x-1][y]-1).setRelie(true);
+	    				batA(x-1,y).setRelie(true);
 	    			}
 	    			if(!estRelie.contains(terrain[x-1][y]-1))
 	    				estRelie.add(terrain[x-1][y]-1);
@@ -180,7 +212,7 @@ public class Terrain {
     		}
     		
     		// On regarde la case à droite de la case courante
-    		if(x+1 < this.larg) {
+    		if(x+1 < this.larg && y>=0) {
 	    		if(terrain[x+1][y] == 0 ) {
 	    			if(!this.estParcourue(parcourue, new Case(x+1,y))) {
 		    			//System.out.println("Ajout de la case (" + (x+1) + "," + y +")");
@@ -189,9 +221,9 @@ public class Terrain {
 	    			}
 	    		}
 	    		else {
-	    			if(!li_bat.get(terrain[x+1][y]-1).estRelie()) {
+	    			if(!batA(x+1,y).estRelie()) {
 	    				//System.out.println("Batiment " + terrain[x+1][y] + " est relié à l'hdv");
-	    				li_bat.get(terrain[x+1][y]-1).setRelie(true);	
+	    				batA(x+1,y).setRelie(true);	
 	    			}
 	    			if(!estRelie.contains(terrain[x+1][y]-1))
 	    				estRelie.add(terrain[x+1][y]-1);
@@ -214,8 +246,8 @@ public class Terrain {
     	ArrayList<Case> parcourue = new ArrayList<Case>();
     	
     	// On parcoure les cases autour de l'hdv
-    	for(int x = (h_x-1); x <= (hdv.getProf() + h_x); ++x) {
-    		for(int y = (h_y-1); y <= (hdv.getLarg() + h_y); ++y) {
+    	for(int x = (h_x-1); x <= (hdv.getLarg() + h_x); ++x) {
+    		for(int y = (h_y-1); y <= (hdv.getProf() + h_y); ++y) {
     			if(x >= 0 && x < this.larg && y >= 0 && y < this.prof) {
     				if(terrain[x][y] == 0) { // ajoute les cases vides qui sont autour de l'hdv
     					pile.push(new Case(x,y)); 
@@ -297,6 +329,7 @@ public class Terrain {
     
     // Calcul le score du terrain en faisant la somme des aires des batiments
     public int calculeScore() {
+		/*
     	ArrayList<Batiment> batiments = new ArrayList<>();
     	ArrayList<Integer> batiments_visite = new ArrayList<>();
     	for(int x = 0; x < larg; ++x) {
@@ -314,6 +347,12 @@ public class Terrain {
     		aire += batiments.get(i).getLarg() * batiments.get(i).getProf();
     	}
     	return aire;
+		*/
+		int aire=0;
+		for(int i=0;i<li_bat.size();i++){
+			if(li_bat.get(i).estRelie()) aire+=li_bat.get(i).getAire();
+		}
+		return aire;
     }
     
     // Ajoute l'hdv aléatoirement sur un terrain vide
@@ -325,7 +364,7 @@ public class Terrain {
     	
     	for(int x = 0; x < this.larg; ++x) {
     		for(int y = 0; y < this.prof; ++y) {
-    			if((x+profondeur) <= this.larg && (y+largeur) <= this.prof) {
+    			if((x+largeur) <= this.larg && (y+profondeur) <= this.prof) {
     				valides.add(new Case(x,y)); // On ajoute toutes les positions valides
     			}
     		}
@@ -335,11 +374,14 @@ public class Terrain {
     	int indice = rand.nextInt(valides.size()); // On tire une position aléatoire
     	Case pos = valides.get(indice);
 
+		poseBatiment(hdv, pos.getX(), pos.getY());
+		/*
     	for(int x = pos.getX(); x < (pos.getX() + largeur); ++x) {
     		for(int y = pos.getY(); y < (pos.getY() + profondeur); ++y) {
     			terrain[x][y] = 1;
     		}
     	}
+		*/
 
     }
 
@@ -351,16 +393,16 @@ public class Terrain {
     // est relié à l'hdv,
     // et ne bloque pas de route pour un autre batiment
     // alors on l'ajoute
-    public void repartitionBatiment() {
+    public void repartitionBatiment(boolean verbose) {
     	for(int x = 0; x < larg; ++x) {
     		for(int y = 0; y < prof; ++y) {
     			if(terrain[x][y] == 0) {
-    				getBatimentBienPlace(x,y);		
+    				getBatimentBienPlace(x,y,verbose);		
     			}    			
     		}
     	}
     }
-    
+    /*
     // Retourne vrai si un batiment est déjà présent sur le terrain
     public boolean batimentDejaPlace(int indice) {
     	for(int x = 0; x < larg; ++x) {
@@ -372,11 +414,12 @@ public class Terrain {
     	}
     	return false;
     }
-    
+    */
     // Cherche le premier batiment, non placé, qui est valide à cette position et l'ajoute au terrain
-    public void getBatimentBienPlace(int x, int y) {
+    public void getBatimentBienPlace(int x, int y, boolean verbose) {
     	for(int i = 0; i < li_bat.size(); ++i) {
-    		if(!batimentDejaPlace(i+1)) {
+    		//if(!batimentDejaPlace(i+1)) {
+			if(!li_bat.get(i).estRelie()){
 				Batiment bat = li_bat.get(i);
 				int largeur = bat.getLarg();
 				int profondeur = bat.getProf();
@@ -385,22 +428,28 @@ public class Terrain {
 					if(estVide(x,y,largeur,profondeur)) { // Si le batiment peut-être ajouté à la position courante
 						if(estRelie(x,y,largeur,profondeur)) { // Si la position est relié à l'hdv
 							//System.out.println("Batiment " + (i+1) + " est placé et est relié");
+							poseBatiment(bat, x, y);
+							/*
 							for(int a = x; a < (x + largeur); ++a) { // On ajoute le batiment
 		    		    		for(int b = y; b < (y + profondeur); ++b) {
 		    		    			terrain[a][b] = i+1;
 		    		    		}
 		    		    	}
+							*/
 							//this.afficherTerrain();
 							if(!estRelieHDV()) { // Si tous les batiments ne sont pas relié après l'ajout alors on retire le batiment
 		    					//System.out.println("Batiment " + (i+1) + " bloque une route");
+								/*
 		    					for(int a = x; a < (x + largeur); ++a) {
 			    		    		for(int b = y; b < (y + profondeur); ++b) {
 			    		    			terrain[a][b] = 0;
 			    		    		}
 			    		    	}
+								*/
+								retireBatiment(bat);
 		    				}
 							else{
-                                System.out.println("Batiment "+(i+1)+" placé =====> (aire:"+li_bat.get(i).getAire()+" , encombrement:"+li_bat.get(i).getEncombrement()+")");
+                                if(verbose) System.out.println("Batiment "+(i+1)+" placé =====> (aire:"+li_bat.get(i).getAire()+" , encombrement:"+li_bat.get(i).getEncombrement()+")");
                                 return;
                             }
 						}
@@ -423,21 +472,23 @@ public class Terrain {
 
 
     // Applique l'algorithme glouton
-    public void glouton(boolean opti_hdv) {
+    public void glouton(boolean opti_hdv, boolean verbose) {
 		if(opti_hdv){
 			System.out.println("placement optimisé !");
 			ajoutOptiHDV();
 		}
 		else ajoutAleatoireHDV();
-    	repartitionBatiment();
+    	repartitionBatiment(verbose);
     }
     
     // Applique l'algorithme glouton avec affichage du 
-    public void affichageGlouton() {
+    public void affichageResultat() {
 
     	System.out.println("====== Résultat ======");
     	afficherTerrain();
-    	System.out.println("Score : " + calculeScore());
+		int score=calculeScore();
+		int aire_max=prof*larg;
+    	System.out.println("Score : " + score +"/"+aire_max+" ("+(score*100)/aire_max+"%)");
     }
 
 
@@ -467,9 +518,9 @@ public class Terrain {
     }
 
     //glouton placant en priorité les batiments à plus grand encombrement
-    public void gloutonEncombrement(boolean opti_hdv){
+    public void gloutonEncombrement(boolean opti_hdv, boolean verbose){
         quicksortEncombrement(li_bat,0,li_bat.size()-1);
-        glouton(opti_hdv);
+        glouton(opti_hdv,verbose);
     }
 
     //quicksort basé sur l'aire de chaque batiment
@@ -498,19 +549,18 @@ public class Terrain {
     }
 
     //glouton placant en priorité les batiments qui ont les plus grandes aires
-    public void gloutonAire(boolean opti_hdv){
+    public void gloutonAire(boolean opti_hdv,boolean verbose){
         quicksortAire(li_bat, 0 , li_bat.size()-1);
-        glouton(opti_hdv);
+        glouton(opti_hdv,verbose);
     }
 
     //glouton placant les batiments dans un ordre aléatoire
-    public void gloutonAléatoire(boolean opti_hdv){
+    public void gloutonAléatoire(boolean opti_hdv,boolean verbose){
         Collections.shuffle(li_bat);
-    	glouton(opti_hdv);
-
+    	glouton(opti_hdv,verbose);
     }
 
-    public void gloutonPerso(boolean opti_hdv){
+    public void gloutonPerso(boolean opti_hdv,boolean verbose){
 
     }
     
@@ -563,14 +613,17 @@ public class Terrain {
 				if(estVide(l,c,largeur,profondeur)){ // si l'emplacement est valide
 
 					//placement de l'HDV
-					for(int x = l; x < (l + profondeur); x++) {
-						for(int y = c; y < (c + largeur); y++) {
+					poseBatiment(hdv, l, c);
+					/*
+					for(int x = l; x < (l + largeur); x++) {
+						for(int y = c; y < (c + profondeur); y++) {
 							terrain[x][y] = 1;
 						}
 					}
+					*/
 
 					//test du glouton
-					repartitionBatiment();
+					repartitionBatiment(false);
 					if(best_score<calculeScore()){
 						best_pos.setX(l);
 						best_pos.setY(c);
@@ -578,11 +631,7 @@ public class Terrain {
 					}
 
 					//vide le terrain
-					for(int x=0;x<this.larg;x++){
-						for(int y=0;y<this.prof;y++){
-							terrain[x][y]=0;
-						}
-					}
+					terrainVide();
 
 					System.out.println("test de "+l+","+c);
 				}
@@ -592,23 +641,26 @@ public class Terrain {
 		System.out.println(" meilleur position : " + best_pos.getX() + "," + best_pos.getY());
 
 		//placement de l'HDV à la meilleur position
+		poseBatiment(hdv, best_pos.getX(), best_pos.getY());
+		/*
 		for(int x = best_pos.getX(); x < (best_pos.getX() + largeur); x++) {
 			for(int y = best_pos.getY(); y < (best_pos.getY() + profondeur); y++) {
 				terrain[x][y] = 1;
 			}
 		}
+		*/
 	}
 
     // Fait tourner l'algo gloutonAire et gloutonEncombrement pour récupérer une solution partielle et le majorant
     public int majorant() {
     	ArrayList<Batiment> memorise_li_bat = this.li_bat;
     	int memorise_terrain[][] = this.terrain;
-    	//gloutonEncombrement();
+    	gloutonEncombrement(true,false);
     	int terrain_encombrement[][] = this.terrain;
     	ArrayList<Batiment> li_bat_encombrement = this.li_bat;
     	this.li_bat = memorise_li_bat;
     	this.terrain = memorise_terrain;
-    	//gloutonAire();
+    	gloutonAire(true,false);
     	int terrain_aire[][] = this.terrain;
     	ArrayList<Batiment> li_bat_aire = this.li_bat;
     	this.li_bat = memorise_li_bat;
@@ -644,22 +696,28 @@ public class Terrain {
 	        				
 	        				if(aire > max_aire && estValide(bat, x, y) && estRelie(x, y, bat.getLarg(), bat.getProf())) {
 	        					max_aire = aire;
+								poseBatiment(bat, x, y);
+								/*
 	        					for(int a = x; a < (x + bat.getLarg()); ++a) { // On ajoute le batiment
 			    		    		for(int b = y; b < (y + bat.getProf()); ++b) {
 			    		    			terrain[a][b] = i+1;
 			    		    		}
 			    		    	}
-	        					
+	        					*/
 	        					if(!estRelieHDV()) {
-	        						for(int a = x; a < (x + bat.getLarg()); ++a) { // On ajoute le batiment
+									retireBatiment(bat);
+									/*
+	        						for(int a = x; a < (x + bat.getLarg()); ++a) { // On retire le batiment
 	    		    		    		for(int b = y; b < (y + bat.getProf()); ++b) {
 	    		    		    			terrain[a][b] = 0;
 	    		    		    		}
 	    		    		    	}
+									*/
 	        					}
+								/*
 	        					else {
 	        						bat.setRelie(true);
-	        					}
+	        					}*/
 	        				}
         				}
         			}

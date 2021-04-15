@@ -40,9 +40,9 @@ public class Main{
                         int largeur = Integer.parseInt(res[0]);
                         int profondeur = Integer.parseInt(res[1]);
                         if(compteur == 2) // HDV
-                            terrain.getliBat().add(new Batiment(largeur, profondeur, true));
+                            terrain.getliBat().add(new Batiment(compteur-1,largeur, profondeur, true));
                         else // batiment normal
-                            terrain.getliBat().add(new Batiment(largeur, profondeur));
+                            terrain.getliBat().add(new Batiment(compteur-1,largeur, profondeur));
                     }
                     ++compteur;
                 }
@@ -64,21 +64,24 @@ public class Main{
                 System.out.println(" 3: bâtiments les plus encombrants en premier");
                 System.out.println(" 4: placement des bâtiments dans un ordre aléatoire");
                 System.out.println(" 5: personnalisé");
+                System.out.println(" 6: Branch & Bound profondeur");
                 test_num=Short.parseShort(sc.nextLine());
 
                 sc.close();
 
                 //effectue le test saisi
                 switch(test_num){
-                    case 1: terrain.glouton(opti_hdv); break;
-                    case 2: terrain.gloutonAire(opti_hdv); break;
-                    case 3: terrain.gloutonEncombrement(opti_hdv);  break;
-                    case 4: terrain.gloutonAléatoire(opti_hdv); break;
+                    case 1: terrain.glouton(opti_hdv,true); break;
+                    case 2: terrain.gloutonAire(opti_hdv,true); break;
+                    case 3: terrain.gloutonEncombrement(opti_hdv,true);  break;
+                    case 4: terrain.gloutonAléatoire(opti_hdv,true); break;
                     case 5: //terrain.gloutonPerso(); break;
+                    case 6: terrain.branchAndBound();break;
+                    default: System.out.println(" entrez une valeur entre 1 et 6 inclus");break;
                 }
 
                 //affichage du résultat
-                terrain.affichageGlouton();
+                terrain.affichageResultat();
             } catch (FileNotFoundException e) {
                 System.out.println(" erreur dans le main lors de la lecture du fichier");
                 e.printStackTrace();
