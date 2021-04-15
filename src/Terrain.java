@@ -1,9 +1,32 @@
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.Random;
 
+class SortByCoeff implements Comparator<Batiment>
+{
+    //utilisé pour le tri descendant par coef
+    public int compare(Batiment a, Batiment b){
+		float coefA=(float)a.getAire()/(float)a.getEncombrement();
+		float coefB=(float)b.getAire()/(float)b.getEncombrement();
+        if(coefA<coefB) return 1;
+		if(coefB<coefA) return -1;
+		return 0;
+    }
+}
+
+class AireSortPerso implements Comparator<Batiment>
+{
+    //utilisé pour le tri descendant par coef
+    public int compare(Batiment a, Batiment b){
+        if(a.getAire()>b.getAire()) return -1;
+		if(b.getAire()>a.getAire()) return 1;
+		//si aires égales, on place d'abord celui qui a le plus petit encombrement
+		return (new SortByCoeff()).compare(a,b);
+    }
+}
 
 public class Terrain {
     private ArrayList<Batiment> li_bat;
@@ -41,7 +64,7 @@ public class Terrain {
 
 	//retire un batiment du terrain
 	public void retireBatiment(Batiment b){
-		System.out.println("retire le batiment "+b.getId()+" situé en "+b.getX()+","+b.getY());
+		//System.out.println("retire le batiment "+b.getId()+" situé en "+b.getX()+","+b.getY());
 		for(int x = b.getX(); x < (b.getX() + b.getLarg()); ++x) {
 			for(int y = b.getY(); y < (b.getY() + b.getProf()); ++y) {
 				terrain[x][y] = 0;
@@ -483,12 +506,11 @@ public class Terrain {
     
     // Applique l'algorithme glouton avec affichage du 
     public void affichageResultat() {
-
     	System.out.println("====== Résultat ======");
     	afficherTerrain();
 		int score=calculeScore();
 		int aire_max=prof*larg;
-    	System.out.println("Score : " + score +"/"+aire_max+" ("+(score*100)/aire_max+"%)");
+    	System.out.println("Score : " + score +"/"+aire_max+" ("+ (float)(score*100.0)/(float)aire_max+"%)");
     }
 
 
@@ -561,7 +583,19 @@ public class Terrain {
     }
 
     public void gloutonPerso(boolean opti_hdv,boolean verbose){
+		Collections.sort(li_bat,new SortByCoeff());
+		for (int i = 0; i < li_bat.size(); i++) {
+			System.out.println(" batiment "+i+" d'id "+li_bat.get(i).getId()+" a le coeff "+((float)li_bat.get(i).getAire()/(float)li_bat.get(i).getEncombrement()));
+		}
+		glouton(opti_hdv,verbose);
+    }
 
+	public void gloutonAireEtEncombrement(boolean opti_hdv,boolean verbose){
+		Collections.sort(li_bat,new AireSortPerso());
+		for (int i = 0; i < li_bat.size(); i++) {
+			System.out.println(" batiment "+i+" d'id "+li_bat.get(i).getId()+"et d'aire "+li_bat.get(i).getAire()+" a le coeff "+((float)li_bat.get(i).getAire()/(float)li_bat.get(i).getEncombrement()));
+		}
+		glouton(opti_hdv,verbose);
     }
     
     public int nbCaseVide(int plateau[][]) {
