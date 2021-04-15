@@ -59,6 +59,7 @@ class Noeud{
 
 public class Arbre {
     private Noeud racine;
+    private ArrayList<Noeud> li_noeuds;
 
     public Arbre(Batiment hdv){
         racine=new Noeud(hdv);
@@ -81,12 +82,16 @@ public class Arbre {
         }
 
         racine=new Noeud(li_bat.get(0));
-        ArrayList<Noeud> li_noeuds=new ArrayList<Noeud>();
+        li_noeuds=new ArrayList<Noeud>();
         li_noeuds.add(racine);
         for (int i=1;i<li_bat_noeuds.size();i++) {
             li_noeuds.add(i, new Noeud(li_bat_noeuds.get(i)));
             li_noeuds.get(i-1).addFils(li_noeuds.get(i)); // ajout du nouveau noeud comme fils du précédant
         }
-    }    
+    }
+    
+    public ArrayList<Noeud> getListNoeuds() {
+    	return this.li_noeuds;
+    }
     
 }
