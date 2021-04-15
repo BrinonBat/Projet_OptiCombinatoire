@@ -60,26 +60,33 @@ public class Main{
                 System.out.println("Choisissez un algo Glouton à tester parmis les suivants:");
                 short test_num;
                 System.out.println(" 1: classique");
-                System.out.println(" 2: bâtiments d'aire maximale en premier");
-                System.out.println(" 3: bâtiments les plus encombrants en premier");
+                System.out.println(" 2: bâtiments les plus encombrants en premier");
+                System.out.println(" 3: bâtiments d'aire maximale en premier");
                 System.out.println(" 4: placement des bâtiments dans un ordre aléatoire");
-                System.out.println(" 5: personnalisé");
-                System.out.println(" 6: Branch & Bound profondeur");
+                System.out.println(" 5: coef personnalisé aire/encombrement");
+                System.out.println(" 6: bâtiments d'aire maximale avec le meilleur coef d'abord");
+                System.out.println(" 7: Branch & Bound profondeur");
                 test_num=Short.parseShort(sc.nextLine());
 
                 sc.close();
+                
+                Launcher mult_test=new Launcher(terrain);
+                mult_test.teste(5000,test_num);
+                
 
                 //effectue le test saisi
+                /*
                 switch(test_num){
                     case 1: terrain.glouton(opti_hdv,true); break;
-                    case 2: terrain.gloutonAire(opti_hdv,true); break;
-                    case 3: terrain.gloutonEncombrement(opti_hdv,true);  break;
+                    case 2: terrain.gloutonEncombrement(opti_hdv,true);  break;
+                    case 3: terrain.gloutonAire(opti_hdv,true); break;
                     case 4: terrain.gloutonAléatoire(opti_hdv,true); break;
-                    case 5: //terrain.gloutonPerso(); break;
-                    case 6: terrain.branchAndBound();break;
-                    default: System.out.println(" entrez une valeur entre 1 et 6 inclus");break;
+                    case 5: terrain.gloutonPerso(opti_hdv,true); break;
+                    case 6: terrain.gloutonAireEtEncombrement(opti_hdv,true); break;
+                    case 7: terrain.branchAndBound();break;
+                    default: System.out.println(" entrez une valeur entre 1 et 7 inclus");break;
                 }
-
+                */
                 //affichage du résultat
                 terrain.affichageResultat();
             } catch (FileNotFoundException e) {
