@@ -1,22 +1,15 @@
-format:
-CECI_EST_UNE_CONSTANTE
-ceci_est_une_variable
-ceciEstUneFonction()
-CeciEstUneClasse
-
 X -> largeur
 Y -> profondeur
 amélioration de l'affichage du score (pourcentage)
-ajout de l'utilisation du x et du y des batiments, ainsi que du "estRelie". Amélioration de getNbBatiment
-ajout d'un Id aux batiments pour facilement retrouver le numero de la ligne associée(id+2) dans le fichier instance
+ajout de l'utilisation du x et du y des batiments (avant ils n'étaient pas vraiment placés), ainsi que du "estRelie". Amélioration de getNbBatiment
 ajout de poseBatiment pour setX et setY les batiments
 ajout de retirerBatiment 
 ajout de terrainVide
-
-
-FAUX quand instance01 -> opti:true/false + algo:2,3,4
+ajout d'un Id aux batiments pour facilement retrouver le numero de la ligne associée(id+2) dans le fichier instance
+"format" de ce fichier transféré dans le readme, qui a été mis à jour
+ajout du glouton par coef perso (meilleur sur l'instance 03)
+ajout du glouton par aire amélioré (aire+coef)
 
 Propositions :   estRelieHDV -> tousRelieHDV & relieHDV -> estRelieHDV
                 (optionnel)  à faire & mettre dans le rapport que aprés étude, on a vu que sur chaque cas l'aire a de meilleurs scores que l'encombrement, et que donc on retire l'encombrement du calcul du majorant
-                ajouter aux batiments le numero de la ligne du document associée. C'est le numero qui sera sur le terain (plutôt que l'ordre) (permet de vérifier ensuite que tout est correct)
-
+                

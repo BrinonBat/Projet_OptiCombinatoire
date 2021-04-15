@@ -9,6 +9,12 @@ Ce projet est réalisée par Baptiste Brinon et Simon Mitaty
 Le numero visible sur le terrain est l'ID du batiment.
 l'ID du batiment est le numero de sa ligne dans le fichier instance moins 2.
 
+format:
+CECI_EST_UNE_CONSTANTE
+ceci_est_une_variable
+ceciEstUneFonction()
+CeciEstUneClasse
+
 ### Liste des tâches
 0. mise en place du Github (Baptiste)
 1. Question 1
@@ -30,12 +36,13 @@ l'ID du batiment est le numero de sa ligne dans le fichier instance moins 2.
     - [x] d'un second variant (Baptiste)
     - [x] d'un troisième variant (Baptiste)
 8. Question 8 (bonus)
-    - [ ] implémentation de variants personnalisés
+    - [ ] implémentation de variants personnalisés (Baptiste & Simon)
 9. Question 9
     - [ ] rapport (repartition du travail demandée)
 
 ### TODO bonus
-    - [x] ajout de l'ID pour l'affichage plutôt que l'ordre dans la liste (car elle varie en fonction du glouton choisi)
-    - [ ] amélioration du positionnement de l'HDV
+    - [x] ajout de l'ID pour l'affichage plutôt que l'ordre dans la liste (car elle varie en fonction du glouton choisi) (Baptiste)
+    - [x] amélioration du positionnement de l'HDV (Baptiste)
     - [ ] variant glouton avec ratio encombrement/aire
-    - [ ] variant branch & bound 
+    - [ ] variant branch & bound profondeurFirst (Simon)
+    - [ ] variant branch & bound meilleurFirst
