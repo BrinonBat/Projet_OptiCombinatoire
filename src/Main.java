@@ -66,9 +66,8 @@ public class Main{
                 System.out.println(" 5: coef personnalisé aire/encombrement");
                 System.out.println(" 6: bâtiments d'aire maximale avec le meilleur coef d'abord");
                 System.out.println(" 7: Branch & Bound profondeur");
+                System.out.println(" 8: Launcher");
                 test_num=Short.parseShort(sc.nextLine());
-
-                sc.close();
                 
                 //effectue le test saisi
                 switch(test_num){
@@ -79,11 +78,25 @@ public class Main{
                     case 5: terrain.gloutonPerso(opti_hdv,true); break;
                     case 6: terrain.gloutonAireEtEncombrement(opti_hdv,true); break;
                     case 7: terrain.branchAndBound();break;
-                    default: System.out.println(" entrez une valeur entre 1 et 7 inclus");break;
+                    case 8: 
+                    	System.out.println(" Veuillez saisir le nombre de répétition : ");
+                    	int nb_rep = Integer.parseInt(sc.nextLine());
+                    	System.out.println(" Veuillez saisir le numéro de l'algo : ");
+                    	System.out.println(" 1: Glouton classique");
+                    	System.out.println(" 2: Glouton par encombrement");
+                    	System.out.println(" 3: Glouton par aire");
+                    	System.out.println(" 4: Glouton aléatoire");
+                    	System.out.println(" 5: Glouton personalisé");
+                    	System.out.println(" 6: Glouton ratio aire/encombrement");
+                    	int algo = Integer.parseInt(sc.nextLine());
+                    	new Launcher(terrain).effectuer(nb_rep, algo);
+                    default: System.out.println(" entrez une valeur entre 1 et 8 inclus");break;
                 }
                 
+                sc.close();
                 //affichage du résultat
-                terrain.affichageResultat();
+                if(test_num != 8)
+                	terrain.affichageResultat();
 
                 /* 
                 Launcher mult_test=new Launcher(terrain);
