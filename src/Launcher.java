@@ -8,6 +8,7 @@ public class Launcher {
     public void effectuer(int nb_rep,int algo){
         int sum=0;
         int square_sum=0;
+        int sum_case_vide = 0;
         switch(algo){
             case 1:{
                 for (int i = 0; i < nb_rep; i++) {
@@ -15,6 +16,7 @@ public class Launcher {
                     int score=terrain.calculeScore();
                     sum+=score;
                     square_sum+= score*score;
+                    sum_case_vide += terrain.nbCaseVide(terrain.getTerrain());
                     terrain.terrainVide();
                 }
                 break;
@@ -25,6 +27,7 @@ public class Launcher {
                     int score=terrain.calculeScore();
                     sum+=score;
                     square_sum+= score*score;
+                    sum_case_vide += terrain.nbCaseVide(terrain.getTerrain());
                     terrain.terrainVide();
                 }
                 break;
@@ -35,6 +38,7 @@ public class Launcher {
                     int score=terrain.calculeScore();
                     sum+=score;
                     square_sum+= score*score;
+                    sum_case_vide += terrain.nbCaseVide(terrain.getTerrain());
                     terrain.terrainVide();
                 }
                 break;
@@ -45,6 +49,7 @@ public class Launcher {
                     int score=terrain.calculeScore();
                     sum+=score;
                     square_sum+= score*score;
+                    sum_case_vide += terrain.nbCaseVide(terrain.getTerrain());
                     terrain.terrainVide();
                 }
                 break;
@@ -55,6 +60,7 @@ public class Launcher {
                     int score=terrain.calculeScore();
                     sum+=score;
                     square_sum+= score*score;
+                    sum_case_vide += terrain.nbCaseVide(terrain.getTerrain());
                     terrain.terrainVide();
                 }
                 break;
@@ -65,6 +71,7 @@ public class Launcher {
                     int score=terrain.calculeScore();
                     sum+=score;
                     square_sum+= score*score;
+                    sum_case_vide += terrain.nbCaseVide(terrain.getTerrain());
                     terrain.terrainVide();
                 }
                 break;
@@ -75,8 +82,9 @@ public class Launcher {
         
         double moyenne = sum / nb_rep;
         double ecart_type = Math.sqrt(square_sum / nb_rep - moyenne * moyenne); //cf. Wikipedia
+        double case_vide = sum_case_vide / nb_rep;
         System.out.println("sum is "+sum);
         System.out.println("Aprés "+nb_rep+" répétitions, voici les statistiques:");
-        System.out.println("Moyenne : "+moyenne+"\nécart-type : "+ecart_type);
+        System.out.println("Moyenne : "+moyenne+"\nÉcart-type : "+ecart_type + "\nMoyenne case vide : " + case_vide);
     }
 }

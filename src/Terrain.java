@@ -682,6 +682,7 @@ public class Terrain {
     public int getLarg(){return larg;}
     public int getProf(){return prof;}
     public ArrayList<Batiment> getliBat(){return li_bat;}
+    public int[][] getTerrain() {return this.terrain;}
     // retourne l'hotel de ville
     public Batiment getHDV() {
     	for(int i = 0; i < li_bat.size(); ++i) {
