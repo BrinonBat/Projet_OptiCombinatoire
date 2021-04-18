@@ -37,6 +37,7 @@ CeciEstUneClasse
     - [x] d'un troisième variant (Baptiste)
 8. Question 8 (bonus)
     - [x] implémentation de variants personnalisés (Baptiste)
+    - [x] implémentation du branch & bound (Baptiste)
 9. Question 9
     - [x] rapport (repartition du travail demandée) (Baptiste et Simon)
 
