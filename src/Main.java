@@ -79,7 +79,7 @@ public class Main{
                     case 6: terrain.gloutonAireEtEncombrement(opti_hdv,true); break;
                     case 7: terrain.branchAndBound();break;
                     case 8: 
-                    	System.out.println(" Veuillez saisir le nombre de répétition : ");
+                    	System.out.println(" Veuillez saisir le nombre de répétitions : ");
                     	int nb_rep = Integer.parseInt(sc.nextLine());
                     	System.out.println(" Veuillez saisir le numéro de l'algo : ");
                     	System.out.println(" 1: Glouton classique");
@@ -90,6 +90,7 @@ public class Main{
                     	System.out.println(" 6: Glouton ratio aire/encombrement");
                     	int algo = Integer.parseInt(sc.nextLine());
                     	new Launcher(terrain).effectuer(nb_rep, algo);
+                        break;
                     default: System.out.println(" entrez une valeur entre 1 et 8 inclus");break;
                 }
                 
@@ -97,11 +98,6 @@ public class Main{
                 //affichage du résultat
                 if(test_num != 8)
                 	terrain.affichageResultat();
-
-                /* 
-                Launcher mult_test=new Launcher(terrain);
-                mult_test.effectuer(5000,test_num);
-                */
 
             } catch (FileNotFoundException e) {
                 System.out.println(" erreur dans le main lors de la lecture du fichier");
