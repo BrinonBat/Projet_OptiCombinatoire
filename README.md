@@ -24,11 +24,11 @@ CeciEstUneClasse
 3. Question 3
     - [x] placement des bâtiments (Simon & Baptiste)
     - [x] verification de placement correct (Baptiste)
-4. Question 4 (Baptiste & Simon)
-    - [x] verification relié à hotel de ville
-    - [x] marquage des batiments reliés
+4. Question 4
+    - [x] verification relié à hotel de ville (Simon)
+    - [x] marquage des batiments reliés (Baptiste)
 5. Question 5
-    - [x] calcul de score pour une solution (cases libres restantes, distance entre batiments, ...) (Simon)
+    - [x] calcul de score pour une solution (Simon)
 6. Question 6
     - [x] premier algorithme glouton (Simon)
 7. Question 7
