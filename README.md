@@ -36,9 +36,9 @@ CeciEstUneClasse
     - [x] d'un second variant (Baptiste)
     - [x] d'un troisième variant (Baptiste)
 8. Question 8 (bonus)
-    - [ ] implémentation de variants personnalisés (Baptiste & Simon)
+    - [ ] implémentation de variants personnalisés (Baptiste)
 9. Question 9
-    - [ ] rapport (repartition du travail demandée)
+    - [ ] rapport (repartition du travail demandée) (Baptiste et Simon)
 
 ### TODO bonus
     - [x] ajout de l'ID pour l'affichage plutôt que l'ordre dans la liste (car elle varie en fonction du glouton choisi) (Baptiste)
