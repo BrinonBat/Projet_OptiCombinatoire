@@ -36,13 +36,13 @@ CeciEstUneClasse
     - [x] d'un second variant (Baptiste)
     - [x] d'un troisième variant (Baptiste)
 8. Question 8 (bonus)
-    - [ ] implémentation de variants personnalisés (Baptiste)
+    - [x] implémentation de variants personnalisés (Baptiste)
 9. Question 9
-    - [ ] rapport (repartition du travail demandée) (Baptiste et Simon)
+    - [x] rapport (repartition du travail demandée) (Baptiste et Simon)
 
 ### TODO bonus
     - [x] ajout de l'ID pour l'affichage plutôt que l'ordre dans la liste (car elle varie en fonction du glouton choisi) (Baptiste)
     - [x] amélioration du positionnement de l'HDV (Baptiste)
-    - [ ] variant glouton avec ratio encombrement/aire
-    - [ ] variant branch & bound profondeurFirst (Simon)
-    - [ ] variant branch & bound meilleurFirst
+    - [x] variant glouton avec ratio encombrement/aire (Baptiste)
+    - [x] variant branch & bound profondeurFirst (Simon)
+    - [x] variant branch & bound meilleurFirst (Baptiste)
