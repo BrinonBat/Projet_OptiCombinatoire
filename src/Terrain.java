@@ -53,7 +53,6 @@ public class Terrain {
     // Ajoute un batiment sur le terrain
     public void poseBatiment(Batiment b, int bx, int by) {
 		b.deplacer(bx, by);
-		//System.out.println(" batiment posé en "+b.getX()+","+b.getY());
 		for(int x = bx; x < (bx + b.getLarg()); ++x) {
 			for(int y = by; y < (by + b.getProf()); ++y) {
 				terrain[x][y] = b.getId();
@@ -64,7 +63,6 @@ public class Terrain {
 
 	//retire un batiment du terrain
 	public void retireBatiment(Batiment b){
-		//System.out.println("retire le batiment "+b.getId()+" situé en "+b.getX()+","+b.getY());
 		for(int x = b.getX(); x < (b.getX() + b.getLarg()); ++x) {
 			for(int y = b.getY(); y < (b.getY() + b.getProf()); ++y) {
 				terrain[x][y] = 0;
@@ -145,7 +143,6 @@ public class Terrain {
     		for(int y = (h_y-1); y <= (hdv.getProf() + h_y); ++y) {
     			if(x >= 0 && x < this.larg && y >= 0 && y < this.prof) {
     				if(terrain[x][y] == 0) { // ajoute les cases vides qui sont autour de l'hdv
-    					//System.out.println("Ajout de la case (" + x + "," + y +")");
     					pile.push(new Case(x,y)); 
     					parcourue.add(new Case(x,y));
     				}
@@ -161,21 +158,17 @@ public class Terrain {
     		Case route = pile.pop();
     		int x = route.getX();
     		int y = route.getY();
-    		
-    		//System.out.println("Case (" + x + "," + y + ")");
-    		
+    		    		
     		// On regarde la case au-desssus de la case courante
     		if(x>=0 && y-1 >= 0) {
 	    		if(terrain[x][y-1] == 0 ) {
 	    			if(!this.estParcourue(parcourue, new Case(x,y-1))) { // Si la case est vide et est non parcourue on l'ajoute à la pile
-		    			//System.out.println("Ajout de la case (" + x + "," + (y-1) +")");
 		    			pile.push(new Case(x,y-1));
 		    			parcourue.add(new Case(x,y-1));
 	    			}
 	    		}
 	    		else { // Sinon c'est un batiment
 	    			if(!batA(x,y-1).estRelie()) { // s'il est pas déjà indiqué comme relié alors on le relie
-	    				//System.out.println("Batiment " + terrain[x][y-1] + " est relié à l'hdv");
 	    				batA(x,y-1).setRelie(true);
 	    			}
 	    			if(!estRelie.contains(terrain[x][y-1]-1))
@@ -187,14 +180,12 @@ public class Terrain {
     		if(x>=0 && y+1 < this.prof) {
 	    		if(terrain[x][y+1] == 0 ) {
 	    			if(!this.estParcourue(parcourue, new Case(x,y+1))) {
-		    			//System.out.println("Ajout de la case (" + x + "," + (y+1) +")");
 		    			pile.push(new Case(x,y+1));
 		    			parcourue.add(new Case(x,y+1));
 	    			}
 	    		}
 	    		else {
 	    			if(!batA(x,y+1).estRelie()) {
-	    				//System.out.println("Batiment " + terrain[x][y+1] + " est relié à l'hdv");
 	    				batA(x,y+1).setRelie(true);
 	    			}
 	    			if(!estRelie.contains(terrain[x][y+1]-1))
@@ -206,14 +197,12 @@ public class Terrain {
     		if(x-1 >= 0 && y>=0) {
 	    		if(terrain[x-1][y] == 0 ) {
 	    			if(!this.estParcourue(parcourue, new Case(x-1,y))) {
-		    			//System.out.println("Ajout de la case (" + (x-1) + "," + y +")");
 		    			pile.push(new Case(x-1,y));
 		    			parcourue.add(new Case(x-1,y));
 	    			}
 	    		}
 	    		else {
 	    			if(!batA(x-1,y).estRelie()) {
-	    				//System.out.println("Batiment " + terrain[x-1][y] + " est relié à l'hdv");
 	    				batA(x-1,y).setRelie(true);
 	    			}
 	    			if(!estRelie.contains(terrain[x-1][y]-1))
@@ -225,14 +214,12 @@ public class Terrain {
     		if(x+1 < this.larg && y>=0) {
 	    		if(terrain[x+1][y] == 0 ) {
 	    			if(!this.estParcourue(parcourue, new Case(x+1,y))) {
-		    			//System.out.println("Ajout de la case (" + (x+1) + "," + y +")");
 		    			pile.push(new Case(x+1,y));
 		    			parcourue.add(new Case(x+1,y));
 	    			}
 	    		}
 	    		else {
 	    			if(!batA(x+1,y).estRelie()) {
-	    				//System.out.println("Batiment " + terrain[x+1][y] + " est relié à l'hdv");
 	    				batA(x+1,y).setRelie(true);	
 	    			}
 	    			if(!estRelie.contains(terrain[x+1][y]-1))
@@ -458,6 +445,8 @@ public class Terrain {
             quicksortEncombrement(tableau, indicePivot+1, fin);
         }
     }
+    
+    // Trie la liste en fonction de l'encombrement le plus haut
     public static int partitionEncombrement(ArrayList<Batiment> b, int début, int fin) {
         Batiment batPivot = b.get(début);
         int d = début+1;
@@ -475,13 +464,13 @@ public class Terrain {
         return d;
     }
 
-    //glouton placant en priorité les batiments à plus grand encombrement
+    // Glouton placant en priorité les batiments à plus grand encombrement
     public void gloutonEncombrement(boolean opti_hdv, boolean verbose){
         quicksortEncombrement(li_bat,0,li_bat.size()-1);
         glouton(opti_hdv,verbose);
     }
 
-    //quicksort basé sur l'aire de chaque batiment
+    // Quicksort basé sur l'aire de chaque batiment
     public static void quicksortAire(ArrayList<Batiment> tableau, int début, int fin) {
         if (début < fin) {
             int indicePivot = partitionAire(tableau, début, fin);
@@ -489,6 +478,8 @@ public class Terrain {
             quicksortAire(tableau, indicePivot+1, fin);
         }
     }
+    
+    // Trie la liste en fonction de l'aire la plus grande
     public static int partitionAire(ArrayList<Batiment> b, int début, int fin) {
         Batiment batPivot = b.get(début);
         int d = début+1;
@@ -506,18 +497,20 @@ public class Terrain {
         return d;
     }
 
-    //glouton placant en priorité les batiments qui ont les plus grandes aires
+    // Glouton placant en priorité les batiments qui ont les plus grandes aires
     public void gloutonAire(boolean opti_hdv,boolean verbose){
         quicksortAire(li_bat, 0 , li_bat.size()-1);
         glouton(opti_hdv,verbose);
     }
 
-    //glouton placant les batiments dans un ordre aléatoire
+    // Glouton placant les batiments dans un ordre aléatoire
     public void gloutonAléatoire(boolean opti_hdv,boolean verbose){
         Collections.shuffle(li_bat);
     	glouton(opti_hdv,verbose);
     }
 
+    // Glouton plaçant en priorité les batiments qui ont les plus grandes aires
+    // en cas d'égalité on prend l'encombrement le plus grand
     public void gloutonPerso(boolean opti_hdv,boolean verbose){
 		Collections.sort(li_bat,new SortByCoeff());
 		for (int i = 0; i < li_bat.size(); i++) {
@@ -526,6 +519,7 @@ public class Terrain {
 		glouton(opti_hdv,verbose);
     }
 
+    // Glouton plaçant en priorité les batiments ayant le ratio aire/encombrement le plus haut
 	public void gloutonAireEtEncombrement(boolean opti_hdv,boolean verbose){
 		Collections.sort(li_bat,new AireSortPerso());
 		for (int i = 0; i < li_bat.size(); i++) {
@@ -534,6 +528,7 @@ public class Terrain {
 		glouton(opti_hdv,verbose);
     }
     
+	// Retourne le nombre de case vide d'un terrain
     public int nbCaseVide(int plateau[][]) {
     	int nb = 0;
     	for(int x = 0; x < larg; ++x) {
@@ -570,6 +565,7 @@ public class Terrain {
     	return aire;
     }
     
+    // Cherche la position optimale de l'hdv
 	public void ajoutOptiHDV(){
 		Batiment hdv = this.getHDV();
     	int largeur = hdv.getLarg();
@@ -596,7 +592,6 @@ public class Terrain {
 					//vide le terrain
 					terrainVide();
 
-					System.out.println("test de "+l+","+c);
 				}
 			}
 		}
@@ -636,6 +631,8 @@ public class Terrain {
     	
     }
     
+    
+    // Lance l'algorithme du branch and bound !! Pas fini !!
     public void branchAndBound() {
 		ArrayList<Batiment> result_majorant=new ArrayList<Batiment>();
     	this.borneSup = majorant(result_majorant);
