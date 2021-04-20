@@ -511,7 +511,7 @@ public class Terrain {
 
     // Glouton plaçant en priorité les batiments qui ont les plus grandes aires
     // en cas d'égalité on prend l'encombrement le plus grand
-    public void gloutonPerso(boolean opti_hdv,boolean verbose){
+    public void gloutonAireEtEncombrement(boolean opti_hdv,boolean verbose){
 		Collections.sort(li_bat,new SortByCoeff());
 		for (int i = 0; i < li_bat.size(); i++) {
 			if(verbose)System.out.println(" batiment "+i+" d'id "+li_bat.get(i).getId()+" a le coeff "+((float)li_bat.get(i).getAire()/(float)li_bat.get(i).getEncombrement()));
@@ -520,7 +520,7 @@ public class Terrain {
     }
 
     // Glouton plaçant en priorité les batiments ayant le ratio aire/encombrement le plus haut
-	public void gloutonAireEtEncombrement(boolean opti_hdv,boolean verbose){
+	public void gloutonPerso(boolean opti_hdv,boolean verbose){
 		Collections.sort(li_bat,new AireSortPerso());
 		for (int i = 0; i < li_bat.size(); i++) {
 			if(verbose)System.out.println(" batiment "+i+" d'id "+li_bat.get(i).getId()+"et d'aire "+li_bat.get(i).getAire()+" a le coeff "+((float)li_bat.get(i).getAire()/(float)li_bat.get(i).getEncombrement()));

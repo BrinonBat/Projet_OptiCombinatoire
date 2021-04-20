@@ -75,8 +75,8 @@ public class Main{
                     case 2: terrain.gloutonEncombrement(opti_hdv,true);  break;
                     case 3: terrain.gloutonAire(opti_hdv,true); break;
                     case 4: terrain.gloutonAléatoire(opti_hdv,true); break;
-                    case 5: terrain.gloutonPerso(opti_hdv,true); break;
-                    case 6: terrain.gloutonAireEtEncombrement(opti_hdv,true); break;
+                    case 5: terrain.gloutonAireEtEncombrement(opti_hdv,true); break;
+                    case 6: terrain.gloutonPerso(opti_hdv,true); break;
                     case 7: System.out.println("Fonctionnalité pas opérationnelle");break;
                     case 8: 
                     	System.out.println(" Veuillez saisir le nombre de répétitions : ");
