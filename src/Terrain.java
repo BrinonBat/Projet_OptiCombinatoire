@@ -130,7 +130,7 @@ public class Terrain {
     }
     
     // Regarde si chaque batiment présent dans le terrain est relié à l'hotel de ville
-    public boolean estRelieHDV() {
+    public boolean tousRelieHDV() {
     	Batiment hdv = this.getHDV();
     	int h_x = hdv.getX();
     	int h_y = hdv.getY();
@@ -234,7 +234,7 @@ public class Terrain {
     }
     
     // Regarde si la position est relié à l'hdv
-    public boolean estRelie(int bx, int by, int largeur, int profondeur) {
+    public boolean estRelieHDV(int bx, int by, int largeur, int profondeur) {
     	Batiment hdv = this.getHDV();
     	int h_x = hdv.getX();
     	int h_y = hdv.getY();
@@ -385,12 +385,12 @@ public class Terrain {
 				
 				if((x+largeur) <= prof && (y+profondeur) <= larg) { // Si le batiment rentre dans le terrain
 					if(estVide(x,y,largeur,profondeur)) { // Si le batiment peut-être ajouté à la position courante
-						if(estRelie(x,y,largeur,profondeur)) { // Si la position est relié à l'hdv
+						if(estRelieHDV(x,y,largeur,profondeur)) { // Si la position est relié à l'hdv
 							//System.out.println("Batiment " + (i+1) + " est placé et est relié");
 							poseBatiment(bat, x, y);
 							
 							//this.afficherTerrain();
-							if(!estRelieHDV()) { // Si tous les batiments ne sont pas relié après l'ajout alors on retire le batiment
+							if(!tousRelieHDV()) { // Si tous les batiments ne sont pas relié après l'ajout alors on retire le batiment
 		    					//System.out.println("Batiment " + (i+1) + " bloque une route");
 								retireBatiment(bat);
 		    				}
@@ -650,10 +650,10 @@ public class Terrain {
         				if(!bat.estRelie()) { // Regarde si le batiment n'est pas déjà placé
 	        				int aire = bat.getLarg()*bat.getProf();
 	        				
-	        				if(aire > max_aire && estValide(bat, x, y) && estRelie(x, y, bat.getLarg(), bat.getProf())) {
+	        				if(aire > max_aire && estValide(bat, x, y) && estRelieHDV(x, y, bat.getLarg(), bat.getProf())) {
 	        					max_aire = aire;
 								poseBatiment(bat, x, y);
-	        					if(!estRelieHDV()) {
+	        					if(!tousRelieHDV()) {
 									retireBatiment(bat);
 	        					}
 	        				}
